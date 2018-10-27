@@ -1,0 +1,65 @@
+package com.wbd.orgsmanger.service.impl;
+
+import com.wbd.orgsmanger.bean.OrgBean;
+import com.wbd.orgsmanger.dao.IOrgsMangerDao;
+import com.wbd.orgsmanger.service.IOrgsMangerService;
+import com.wbd.util.Utils;
+import com.wbd.enums.ErrorEnum;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * 用户管理service
+ */
+@Service("orgMangerService")
+@Transactional(rollbackFor = Exception.class)
+public class OrgsMangerServiceImpl implements IOrgsMangerService
+{
+    @Autowired
+    private IOrgsMangerDao OrgsMangerDao;
+
+    @Override
+    @Transactional
+    public void saveOrg(OrgBean org)
+    {
+        //校验组织ID和组织名称不能为空
+        Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
+        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
+
+        //如果查询出结果抛出组织ID已存在错误
+        Utils.assertNull(OrgsMangerDao.queryOrgById(org.getOrgId()), ErrorEnum.ERROR_ORG_INUSE);
+
+        OrgsMangerDao.saveOrg(org);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public OrgBean queryOrgById(String orgId)
+    {
+        return OrgsMangerDao.queryOrgById(orgId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<OrgBean> queryAllOrgs()
+    {
+        return OrgsMangerDao.queryAllOrgs();
+    }
+
+    @Override
+    @Transactional
+    public int updateOrg(OrgBean org)
+    {
+        return OrgsMangerDao.updateOrg(org);
+    }
+
+    @Override
+    @Transactional
+    public int deleteOrg(String orgId)
+    {
+        return OrgsMangerDao.deleteOrg(orgId);
+    }
+}

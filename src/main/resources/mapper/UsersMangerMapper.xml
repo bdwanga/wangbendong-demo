@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.wbd.usersmanger.dao.IUsersMangerDao">
+	<resultMap type="com.wbd.usersmanger.bean.UserBean" id="USER_MAP">
+		<result property="id" column="USER_ID" />
+		<result property="name" column="USER_NAME" />
+		<result property="password" column="USER_PASSWORD" />
+		<result property="token" column="USER_TOKEN" />
+		<result property="nick" column="USER_NICK" />
+		<result property="orgId" column="USER_ORG" />
+		<result property="orgName" column="ORGNAME" />
+	</resultMap>
+
+    <sql id="USER_COLUMN_LIST" >
+        A.USER_ID,A.USER_NAME,A.USER_PASSWORD,A.USER_TOKEN,A.USER_NICK,A.USER_ORG,B.ORGNAME
+    </sql>
+
+	<!-- 保存用户信息，自动生成主键-->
+	<insert id="saveUser" parameterType="com.wbd.usersmanger.bean.UserBean" useGeneratedKeys="true" keyProperty="id">
+		INSERT INTO USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG)
+		VALUES
+		(#{name}, #{password}, #{token}, #{nick},#{orgId})
+	</insert>
+	<!-- 通过id查询用户-->
+	<select id="queryUserById" parameterType="string" resultMap="USER_MAP">
+        SELECT <include refid="USER_COLUMN_LIST" />
+		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		WHERE  USER_ID=#{id}
+	</select>
+	<!-- 通过用户名查询用户-->
+	<select id="queryUserByName" parameterType="string" resultMap="USER_MAP">
+        SELECT <include refid="USER_COLUMN_LIST" />
+		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		WHERE  USER_NAME=#{name}
+	</select>
+
+	<!-- 查询所有的用户-->
+	<select id="queryAllUsers" parameterType="string" resultMap="USER_MAP">
+        SELECT <include refid="USER_COLUMN_LIST" />
+		  FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		ORDER BY USER_ID
+	</select>
+
+	<!-- 更新用户信息-->
+	<update id="updateUser" parameterType="com.wbd.usersmanger.bean.UserBean">
+	UPDATE USER A
+        <set>
+			    A.USER_ID = A.USER_ID,
+            <if test="name!= null and name !=''">
+				A.USER_NAME=#{name},
+            </if>
+            <if test="password!= null and password !=''">
+				A.USER_PASSWORD=#{password},
+            </if>
+            <if test="token!= null">
+				A.USER_TOKEN=#{token},
+            </if>
+            <if test="nick!= null">
+				A.USER_NICK=#{nick},
+            </if>
+			<if test="orgId!= null">
+				A.USER_ORG=#{orgId}
+			</if>
+        </set>
+	WHERE
+		A.USER_ID=#{id}
+	</update>
+
+    <!-- 更新用户信息-->
+    <delete  id="deleteUser" parameterType="string">
+	 DELETE FROM USER
+       WHERE USER_ID =#{id}
+	</delete>
+
+</mapper>

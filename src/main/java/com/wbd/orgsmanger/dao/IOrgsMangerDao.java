@@ -23,6 +23,13 @@ public interface IOrgsMangerDao
     public OrgBean queryOrgById(String orgId);
 
     /**
+     * 根据组织名称查询组织单位
+     *
+     * @param orgName
+     */
+    public OrgBean queryOrgByName(String orgName);
+
+    /**
      * 查询所有的用户
      *
      */

@@ -44,24 +44,12 @@
 	<!-- 更新用户信息-->
 	<update id="updateUser" parameterType="com.wbd.usersmanger.bean.UserBean">
 	UPDATE USER A
-        <set>
-			    A.USER_ID = A.USER_ID,
-            <if test="name!= null and name !=''">
+        SET
 				A.USER_NAME=#{name},
-            </if>
-            <if test="password!= null and password !=''">
 				A.USER_PASSWORD=#{password},
-            </if>
-            <if test="token!= null">
 				A.USER_TOKEN=#{token},
-            </if>
-            <if test="nick!= null">
 				A.USER_NICK=#{nick},
-            </if>
-			<if test="orgId!= null">
 				A.USER_ORG=#{orgId}
-			</if>
-        </set>
 	WHERE
 		A.USER_ID=#{id}
 	</update>

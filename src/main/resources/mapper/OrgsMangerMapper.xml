@@ -2,47 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.wbd.orgsmanger.dao.IOrgsMangerDao">
 
-    <sql id="ORG_COLUMN_LIST" >
-        ORGID,ORGNAME,PARENTID
+    <sql id="ORG_COLUMN_LIST">
+        A.ORGID,A.ORGNAME,A.PARENTID,B.ORGNAME PARENTNAME
     </sql>
 
-	<!-- 保存组织机构 -->
-	<insert id="saveOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
+    <!-- 保存组织机构 -->
+    <insert id="saveOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
 		INSERT INTO ORGANIZATION (ORGID,ORGNAME,PARENTID)
 		VALUES
 		(#{orgId}, #{orgName}, #{parentId})
 	</insert>
-	<!-- 通过id查询用户-->
-	<select id="queryOrgById" parameterType="string" resultType="com.wbd.orgsmanger.bean.OrgBean">
-        SELECT <include refid="ORG_COLUMN_LIST" />
-		 FROM ORGANIZATION
-		WHERE  ORGID=#{orgId}
-	</select>
+    <!-- 通过id查询用户-->
+    <select id="queryOrgById" parameterType="string" resultType="com.wbd.orgsmanger.bean.OrgBean">
+        SELECT
+        <include refid="ORG_COLUMN_LIST"/>
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
+        WHERE A.ORGID=#{orgId}
+    </select>
 
-	<!-- 查询所有的用户-->
-	<select id="queryAllOrgs" resultType="com.wbd.orgsmanger.bean.OrgBean">
-        SELECT <include refid="ORG_COLUMN_LIST" />
-        FROM ORGANIZATION
-	</select>
+    <!-- 通过组织名称查询用户-->
+    <select id="queryOrgByName" parameterType="string" resultType="com.wbd.orgsmanger.bean.OrgBean">
+        SELECT
+        <include refid="ORG_COLUMN_LIST"/>
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
+        WHERE A.ORGNAME=#{orgName}
+    </select>
 
-	<!-- 更新用户信息-->
-	<update id="updateOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
+    <!-- 查询所有的用户-->
+    <select id="queryAllOrgs" resultType="com.wbd.orgsmanger.bean.OrgBean">
+        SELECT
+        <include refid="ORG_COLUMN_LIST"/>
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
+        ORDER BY A.ORGID
+    </select>
+
+    <!-- 更新用户信息-->
+    <update id="updateOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
 	UPDATE ORGANIZATION O
-        <set>
-               O.ORGID = O.ORGID,
-            <if test="orgName!= null and orgName !=''">
-                O.ORGNAME=#{orgName},
-            </if>
-            <if test="parentId!= null">
-                O.PARENTID=#{parentId}
-            </if>
-        </set>
+        SET  O.ORGNAME=#{orgName},
+             O.PARENTID=#{parentId}
 	WHERE
         O.ORGID=#{orgId}
 	</update>
 
     <!-- 更新用户信息-->
-    <delete  id="deleteOrg" parameterType="string">
+    <delete id="deleteOrg" parameterType="string">
 	 DELETE FROM ORGANIZATION
        WHERE ORGID=#{orgId}
 	</delete>

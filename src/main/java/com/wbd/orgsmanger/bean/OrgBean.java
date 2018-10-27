@@ -21,6 +21,11 @@ public class OrgBean implements Serializable
      */
     private String parentId;
 
+    /**
+     * 上级组织id
+     */
+    private String parentName;
+
     public String getOrgId()
     {
         return orgId;
@@ -49,5 +54,15 @@ public class OrgBean implements Serializable
     public void setParentId(String parentId)
     {
         this.parentId = parentId;
+    }
+
+    public String getParentName()
+    {
+        return parentName;
+    }
+
+    public void setParentName(String parentName)
+    {
+        this.parentName = parentName;
     }
 }

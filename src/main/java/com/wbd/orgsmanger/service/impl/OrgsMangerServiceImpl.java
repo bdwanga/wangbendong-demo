@@ -1,10 +1,12 @@
 package com.wbd.orgsmanger.service.impl;
 
+import com.wbd.exception.ServiceException;
 import com.wbd.orgsmanger.bean.OrgBean;
 import com.wbd.orgsmanger.dao.IOrgsMangerDao;
 import com.wbd.orgsmanger.service.IOrgsMangerService;
 import com.wbd.util.Utils;
 import com.wbd.enums.ErrorEnum;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +55,17 @@ public class OrgsMangerServiceImpl implements IOrgsMangerService
     @Transactional
     public int updateOrg(OrgBean org)
     {
+        //组织名称不能为空
+        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
+
+        //存校验填写的组织机构名称不能重复
+        OrgBean orgInfo = OrgsMangerDao.queryOrgByName(org.getOrgName());
+
+        if (null != orgInfo && !StringUtils.equals(orgInfo.getOrgId(), org.getOrgId()))
+        {
+            throw new ServiceException(ErrorEnum.MODIFY_ORG_NAME_INUSE);
+        }
+
         return OrgsMangerDao.updateOrg(org);
     }
 

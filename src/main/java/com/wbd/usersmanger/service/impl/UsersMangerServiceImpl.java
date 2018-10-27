@@ -1,5 +1,6 @@
 package com.wbd.usersmanger.service.impl;
 
+import com.wbd.orgsmanger.dao.IOrgsMangerDao;
 import com.wbd.usersmanger.bean.UserBean;
 import com.wbd.usersmanger.dao.IUsersMangerDao;
 import com.wbd.usersmanger.service.IUsersMangerService;
@@ -23,6 +24,9 @@ public class UsersMangerServiceImpl implements IUsersMangerService
 
     @Autowired
     private IUsersMangerDao usersMangerDao;
+
+    @Autowired
+    private IOrgsMangerDao orgsMangerDao;
 
     /**
      * 查询所有用户
@@ -51,6 +55,12 @@ public class UsersMangerServiceImpl implements IUsersMangerService
 
         //如果查询出结果抛出用户已存在错误
         Utils.assertNull(usersMangerDao.queryUserByName(user.getName()), ErrorEnum.ERROR_USER_INUSE);
+
+        //存在组织机构id，校验填写的组织机构必须存在
+        if (StringUtils.isNotEmpty(user.getOrgId()))
+        {
+            Utils.assertNotNull(orgsMangerDao.queryOrgById(user.getOrgId()), ErrorEnum.ERROR_ORG_ID);
+        }
 
         usersMangerDao.saveUser(user);
     }
@@ -90,15 +100,22 @@ public class UsersMangerServiceImpl implements IUsersMangerService
     @Transactional
     public int updateUser(UserBean user)
     {
-        //判读修改用户名是否被使用
-        if (StringUtils.isNotEmpty(user.getName()))
-        {
-            UserBean userInfo = usersMangerDao.queryUserByName(user.getName());
+        //校验用户名和密码不能为空
+        Utils.assertNotNull(user.getName(), ErrorEnum.LACK_USER_NAME);
+        Utils.assertNotNull(user.getPassword(), ErrorEnum.LACK_USER_PASSWORD);
 
-            if (null != userInfo && !StringUtils.equals(userInfo.getId(), user.getId()))
-            {
-                throw new ServiceException(ErrorEnum.MODIFY_USER_NAME_INUSE);
-            }
+        //判读修改用户名是否被使用
+        UserBean userInfo = usersMangerDao.queryUserByName(user.getName());
+
+        if (null != userInfo && !StringUtils.equals(userInfo.getId(), user.getId()))
+        {
+            throw new ServiceException(ErrorEnum.MODIFY_USER_NAME_INUSE);
+        }
+
+        //存在组织机构id，校验填写的组织机构必须存在
+        if (StringUtils.isNotEmpty(user.getOrgId()))
+        {
+            Utils.assertNotNull(orgsMangerDao.queryOrgById(user.getOrgId()), ErrorEnum.ERROR_ORG_ID);
         }
 
         return usersMangerDao.updateUser(user);

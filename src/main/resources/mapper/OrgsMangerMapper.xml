@@ -3,12 +3,12 @@
 <mapper namespace="com.wbd.orgsmanger.dao.IOrgsMangerDao">
 
     <sql id="ORG_COLUMN_LIST">
-        A.ORGID,A.ORGNAME,A.PARENTID,B.ORGNAME PARENTNAME
+        A.ORG_ID ORGID,A.ORG_NAME ORGNAME,A.PARENT_ID PARENTID,B.ORG_NAME PARENTNAME
     </sql>
 
     <!-- 保存组织机构 -->
     <insert id="saveOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
-		INSERT INTO ORGANIZATION (ORGID,ORGNAME,PARENTID)
+		INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID)
 		VALUES
 		(#{orgId}, #{orgName}, #{parentId})
 	</insert>
@@ -16,39 +16,39 @@
     <select id="queryOrgById" parameterType="string" resultType="com.wbd.orgsmanger.bean.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
-        WHERE A.ORGID=#{orgId}
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        WHERE A.ORG_ID=#{orgId}
     </select>
 
     <!-- 通过组织名称查询用户-->
     <select id="queryOrgByName" parameterType="string" resultType="com.wbd.orgsmanger.bean.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
-        WHERE A.ORGNAME=#{orgName}
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        WHERE A.ORG_NAME=#{orgName}
     </select>
 
     <!-- 查询所有的用户-->
     <select id="queryAllOrgs" resultType="com.wbd.orgsmanger.bean.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENTID = B.ORGID)
-        ORDER BY A.ORGID
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        ORDER BY A.ORG_ID
     </select>
 
     <!-- 更新用户信息-->
     <update id="updateOrg" parameterType="com.wbd.orgsmanger.bean.OrgBean">
 	UPDATE ORGANIZATION O
-        SET  O.ORGNAME=#{orgName},
-             O.PARENTID=#{parentId}
+        SET  O.ORG_NAME=#{orgName},
+             O.PARENT_ID=#{parentId}
 	WHERE
-        O.ORGID=#{orgId}
+        O.ORG_ID=#{orgId}
 	</update>
 
     <!-- 更新用户信息-->
     <delete id="deleteOrg" parameterType="string">
 	 DELETE FROM ORGANIZATION
-       WHERE ORGID=#{orgId}
+       WHERE ORG_ID=#{orgId}
 	</delete>
 
 </mapper>

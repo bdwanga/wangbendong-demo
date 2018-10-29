@@ -17,7 +17,7 @@ import java.util.List;
 
 @Controller("orgMangerController")
 @RequestMapping("/api/orgmanger")
-@Api("组织机构管理api")
+@Api(value = "组织机构管理api", tags = "组织机构管理接口")
 public class OrgsMangerController
 {
 

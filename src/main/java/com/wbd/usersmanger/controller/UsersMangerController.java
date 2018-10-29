@@ -16,7 +16,7 @@ import java.util.List;
 
 @Controller("usersMangerController")
 @RequestMapping("/api/usersmanger")
-@Api("用户管理api")
+@Api(value = "用户管理api", tags = "用户管理接口")
 public class UsersMangerController
 {
     @Autowired
@@ -42,7 +42,7 @@ public class UsersMangerController
         return new JsonResult(user);
     }
 
-    @RequestMapping(value = "/{userId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     @ApiOperation(value = "根据用户ID查询用户", response = JsonResult.class)
     @ResponseBody
     public JsonResult<UserBean> queryUserById(@PathVariable("userId") @ApiParam("需要查询的用户id") String userId)
@@ -52,7 +52,7 @@ public class UsersMangerController
         return new JsonResult(user);
     }
 
-    @RequestMapping(value = "/byname/{userName}",method = RequestMethod.GET)
+    @RequestMapping(value = "/byname/{userName}", method = RequestMethod.GET)
     @ApiOperation(value = "根据名称查询用户", response = JsonResult.class)
     @ResponseBody
     public JsonResult<UserBean> queryUserByName(@PathVariable("userName") @ApiParam("需要查询的用户名") String userName)
@@ -69,36 +69,36 @@ public class UsersMangerController
     {
         int count = usersMangerService.updateUser(user);
 
-        return new JsonResult(JsonResult.SUCCESS,"更新用户信息成功，共更新"+count+"条");
+        return new JsonResult(JsonResult.SUCCESS, "更新用户信息成功，共更新" + count + "条");
     }
 
-    @RequestMapping(value = "/{userId}",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除用户", response = JsonResult.class)
     @ResponseBody
     public JsonResult deleteUser(@PathVariable("userId") @ApiParam("需要删除用户id") String userId)
     {
         int count = usersMangerService.deleteUser(userId);
 
-        return new JsonResult(JsonResult.SUCCESS,"删除用户信息成功，共删除"+count+"条");
+        return new JsonResult(JsonResult.SUCCESS, "删除用户信息成功，共删除" + count + "条");
     }
 
-    @RequestMapping(value = "/sign",method = RequestMethod.POST)
+    @RequestMapping(value = "/sign", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录", response = JsonResult.class)
     @ResponseBody
     public JsonResult signIn(@RequestParam("userName") @ApiParam("用户名") String userName,
                              @RequestParam("password") @ApiParam("密码") String password,
                              HttpServletRequest request)
     {
-        UserBean user = usersMangerService.signIn(userName,password);
+        UserBean user = usersMangerService.signIn(userName, password);
 
         //登录成功将当前用户放入session
         HttpSession session = request.getSession();
-        session.setAttribute("curUser",user);
+        session.setAttribute("curUser", user);
 
-        return new JsonResult(JsonResult.SUCCESS,"用户登录成功");
+        return new JsonResult(JsonResult.SUCCESS, "用户登录成功");
     }
 
-    @RequestMapping(value = "/sign",method = RequestMethod.DELETE)
+    @RequestMapping(value = "/sign", method = RequestMethod.DELETE)
     @ApiOperation(value = "用户退出", response = JsonResult.class)
     @ResponseBody
     public JsonResult signOut(HttpServletRequest request)
@@ -107,6 +107,6 @@ public class UsersMangerController
         HttpSession session = request.getSession();
         session.invalidate();
 
-        return new JsonResult(JsonResult.SUCCESS,"用户退出成功");
+        return new JsonResult(JsonResult.SUCCESS, "用户退出成功");
     }
 }

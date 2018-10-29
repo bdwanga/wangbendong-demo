@@ -8,11 +8,11 @@
 		<result property="token" column="USER_TOKEN" />
 		<result property="nick" column="USER_NICK" />
 		<result property="orgId" column="USER_ORG" />
-		<result property="orgName" column="ORGNAME" />
+		<result property="orgName" column="ORG_NAME" />
 	</resultMap>
 
     <sql id="USER_COLUMN_LIST" >
-        A.USER_ID,A.USER_NAME,A.USER_PASSWORD,A.USER_TOKEN,A.USER_NICK,A.USER_ORG,B.ORGNAME
+        A.USER_ID,A.USER_NAME,A.USER_PASSWORD,A.USER_TOKEN,A.USER_NICK,A.USER_ORG,B.ORG_NAME
     </sql>
 
 	<!-- 保存用户信息，自动生成主键-->
@@ -24,20 +24,20 @@
 	<!-- 通过id查询用户-->
 	<select id="queryUserById" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_ID=#{id}
 	</select>
 	<!-- 通过用户名查询用户-->
 	<select id="queryUserByName" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_NAME=#{name}
 	</select>
 
 	<!-- 查询所有的用户-->
 	<select id="queryAllUsers" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		  FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORGID)
+		  FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		ORDER BY USER_ID
 	</select>
 

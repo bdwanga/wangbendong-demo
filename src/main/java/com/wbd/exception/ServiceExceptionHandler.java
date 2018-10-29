@@ -24,7 +24,7 @@ public class ServiceExceptionHandler
     {
         log.error(exception.getMessage(),exception);
 
-        return new ResponseEntity(new JsonResult(exception), HttpStatus.OK);
+        return new ResponseEntity(new JsonResult(exception), exception.getHttpStatus());
     }
 
     //其他异常

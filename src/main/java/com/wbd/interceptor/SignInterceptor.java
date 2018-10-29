@@ -2,6 +2,7 @@ package com.wbd.interceptor;
 
 import com.wbd.enums.ErrorEnum;
 import com.wbd.exception.ServiceException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -29,8 +30,8 @@ public class SignInterceptor implements HandlerInterceptor
         // 检查每个到来的请求对应的session域中是否有登录标识
         Object loginName = request.getSession().getAttribute("curUser");
         if (null == loginName)
-            {
-            throw new ServiceException(ErrorEnum.NOT_LOGIN);
+        {
+            throw new ServiceException(ErrorEnum.NOT_LOGIN, HttpStatus.UNAUTHORIZED);
         }
 
         return true;

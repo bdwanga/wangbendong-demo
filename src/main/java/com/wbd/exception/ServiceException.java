@@ -1,6 +1,7 @@
 package com.wbd.exception;
 
 import com.wbd.enums.ErrorEnum;
+import org.springframework.http.HttpStatus;
 
 public class ServiceException extends RuntimeException
 {
@@ -11,7 +12,7 @@ public class ServiceException extends RuntimeException
     /**
      * http状态码
      */
-    private int httpStatus = 500;
+    private HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
 
     private String errCode;
 
@@ -44,7 +45,7 @@ public class ServiceException extends RuntimeException
      * @param cause      上层异常
      * @param additional 额外信息，前端用
      */
-    public ServiceException(int httpStatus, String errCode, String message, Object[] params, Throwable cause, Object additional)
+    public ServiceException(HttpStatus httpStatus, String errCode, String message, Object[] params, Throwable cause, Object additional)
     {
         super(cause);
         this.httpStatus = httpStatus;
@@ -63,7 +64,7 @@ public class ServiceException extends RuntimeException
      */
     public ServiceException(String errCode, String message, Object... params)
     {
-        this(500, errCode, message, params, null, null);
+        this(HttpStatus.INTERNAL_SERVER_ERROR, errCode, message, params, null, null);
     }
 
     /**
@@ -73,7 +74,18 @@ public class ServiceException extends RuntimeException
      */
     public ServiceException(ErrorEnum errorEnum)
     {
-        this(500, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
+        this(HttpStatus.INTERNAL_SERVER_ERROR, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
+    }
+
+    /**
+     * 构造方法.
+     *
+     * @param errorEnum 异常枚举
+     * @param httpStatus
+     */
+    public ServiceException(ErrorEnum errorEnum,HttpStatus httpStatus)
+    {
+        this(httpStatus, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
     }
 
     /**
@@ -136,7 +148,7 @@ public class ServiceException extends RuntimeException
      */
     public ServiceException(String errCode, String message, Object[] params, Throwable cause, Object additional)
     {
-        this(500, errCode, message, params, cause, additional);
+        this(HttpStatus.INTERNAL_SERVER_ERROR, errCode, message, params, cause, additional);
     }
 
     /**
@@ -147,9 +159,9 @@ public class ServiceException extends RuntimeException
      * @param message    用户自定义异常描述信息
      * @param params     异常描述时用到的格式化参数
      */
-    public ServiceException(int httpStatus, String errCode, String message, Object... params)
+    public ServiceException(HttpStatus httpStatus, String errCode, String message, Object... params)
     {
-        this(500, errCode, message, params, null, null);
+        this(httpStatus, errCode, message, params, null, null);
     }
 
     /**
@@ -161,14 +173,13 @@ public class ServiceException extends RuntimeException
      */
     public ServiceException(int httpStatus, String errCode, Throwable cause)
     {
-        this(500, errCode, null, null, null, null);
+        this(HttpStatus.INTERNAL_SERVER_ERROR, errCode, null, null, null, null);
     }
 
-    public int getHttpStatus()
+    public HttpStatus getHttpStatus()
     {
         return httpStatus;
     }
-
 
     public String getErrCode()
     {

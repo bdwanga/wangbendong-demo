@@ -1,4 +1,4 @@
-package com.wbd;
+package com.wbd.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

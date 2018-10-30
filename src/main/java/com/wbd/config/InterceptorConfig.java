@@ -1,4 +1,4 @@
-package com.wbd;
+package com.wbd.config;
 
 import com.wbd.interceptor.SignInterceptor;
 import org.springframework.context.annotation.Configuration;

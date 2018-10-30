@@ -1,5 +1,7 @@
 package com.wbd.usersmanger.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.wbd.orgsmanger.dao.IOrgsMangerDao;
 import com.wbd.usersmanger.bean.UserBean;
 import com.wbd.usersmanger.dao.IUsersMangerDao;
@@ -38,6 +40,20 @@ public class UsersMangerServiceImpl implements IUsersMangerService
     public List<UserBean> queryAllUsers()
     {
         return usersMangerDao.queryAllUsers();
+    }
+
+    /**
+     * 分页查询
+     *
+     * @param page 分页信息
+     * @return
+     */
+    public PageInfo queryUsersByPage(PageInfo page)
+    {
+        PageHelper.startPage(page.getPageNum(),page.getPageSize());
+        List<UserBean> users = usersMangerDao.queryAllUsers();
+
+        return new PageInfo(users);
     }
 
     /**

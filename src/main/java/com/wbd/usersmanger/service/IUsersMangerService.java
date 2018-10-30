@@ -1,5 +1,6 @@
 package com.wbd.usersmanger.service;
 
+import com.github.pagehelper.PageInfo;
 import com.wbd.usersmanger.bean.UserBean;
 
 import java.util.List;
@@ -35,6 +36,14 @@ public interface IUsersMangerService
      * @return
      */
     public UserBean queryUserByName(String name);
+
+    /**
+     * 分页查询
+     *
+     * @param page 分页信息
+     * @return
+     */
+    public PageInfo queryUsersByPage(PageInfo page);
 
     /**
      * 更新用户信息

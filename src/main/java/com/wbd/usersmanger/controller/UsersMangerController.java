@@ -1,5 +1,6 @@
 package com.wbd.usersmanger.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.wbd.usersmanger.bean.UserBean;
 import com.wbd.usersmanger.service.IUsersMangerService;
 import com.wbd.util.JsonResult;
@@ -30,6 +31,16 @@ public class UsersMangerController
         List userList = usersMangerService.queryAllUsers();
 
         return new JsonResult(userList);
+    }
+
+    @RequestMapping(value = "/bypage" ,method = RequestMethod.GET)
+    @ApiOperation(value = "分页查询", response = JsonResult.class)
+    @ResponseBody
+    public JsonResult<PageInfo> queryUsersByPage(@ApiParam("分页信息")PageInfo page)
+    {
+        PageInfo pageData = usersMangerService.queryUsersByPage(page);
+
+        return new JsonResult(pageData);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -82,7 +93,7 @@ public class UsersMangerController
         return new JsonResult(JsonResult.SUCCESS, "删除用户信息成功，共删除" + count + "条");
     }
 
-    @RequestMapping(value = "/sign", method = RequestMethod.POST)
+    @RequestMapping(value = "/actions/sign", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录", response = JsonResult.class)
     @ResponseBody
     public JsonResult signIn(@RequestParam("userName") @ApiParam("用户名") String userName,
@@ -98,7 +109,7 @@ public class UsersMangerController
         return new JsonResult(JsonResult.SUCCESS, "用户登录成功");
     }
 
-    @RequestMapping(value = "/sign", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/actions/sign", method = RequestMethod.DELETE)
     @ApiOperation(value = "用户退出", response = JsonResult.class)
     @ResponseBody
     public JsonResult signOut(HttpServletRequest request)

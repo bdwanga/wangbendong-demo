@@ -1,5 +1,7 @@
 package com.wbd;
 
+import com.wbd.orgsmanger.bean.OrgBean;
+import com.wbd.orgsmanger.controller.OrgsMangerController;
 import com.wbd.usersmanger.bean.UserBean;
 import com.wbd.usersmanger.controller.UsersMangerController;
 import com.wbd.usersmanger.service.IUsersMangerService;
@@ -22,6 +24,9 @@ public class WangbendongDemoApplicationTests
 
     @Autowired
     private UsersMangerController usersMangerController;
+
+    @Autowired
+    private OrgsMangerController orgsMangerController;
 
     @Test
     public void testService()
@@ -74,6 +79,15 @@ public class WangbendongDemoApplicationTests
 
         //删除用户
         //JsonResult jsonResult5 = usersMangerController.deleteUser(user.getId());
+
+        //查询所有的组织机构
+        JsonResult jsonResult6 = orgsMangerController.queryAllOrgs();
+
+        OrgBean orgBean = new OrgBean();
+        orgBean.setOrgId("05");
+        orgBean.setOrgName("sjdfha");
+
+        orgsMangerController.saveOrg(orgBean);
     }
 
 }

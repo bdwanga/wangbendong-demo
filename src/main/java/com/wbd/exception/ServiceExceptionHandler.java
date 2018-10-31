@@ -24,13 +24,13 @@ public class ServiceExceptionHandler
     {
         log.error(exception.getMessage(),exception);
 
-        return new ResponseEntity(new JsonResult(exception), exception.getHttpStatus());
+        return new ResponseEntity<>(new JsonResult(exception), exception.getHttpStatus());
     }
 
     //其他异常
     @ExceptionHandler
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    public ResponseEntity<JsonResult> hadleServerException(Exception exception)
+    public ResponseEntity<JsonResult> handleServerException(Exception exception)
     {
         log.error("系统错误：",exception);
 
@@ -45,6 +45,6 @@ public class ServiceExceptionHandler
             httpStatus = HttpStatus.BAD_REQUEST;
         }
 
-        return new ResponseEntity(new JsonResult(exception), httpStatus);
+        return new ResponseEntity<>(new JsonResult(exception), httpStatus);
     }
 }

@@ -29,9 +29,9 @@ public class OrgsMangerController
     @ResponseBody
     public JsonResult<List<OrgBean>> queryAllOrgs()
     {
-        List userList = orgsMangerService.queryAllOrgs();
+        List<OrgBean> userList = orgsMangerService.queryAllOrgs();
 
-        return new JsonResult(userList);
+        return new JsonResult<>(userList);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -41,7 +41,7 @@ public class OrgsMangerController
     {
         orgsMangerService.saveOrg(org);
 
-        return new JsonResult(org);
+        return new JsonResult<>(org);
     }
 
     @RequestMapping(value = "/{orgId}", method = RequestMethod.GET)
@@ -51,7 +51,7 @@ public class OrgsMangerController
     {
         OrgBean org = orgsMangerService.queryOrgById(orgId);
 
-        return new JsonResult(org);
+        return new JsonResult<>(org);
     }
 
     @RequestMapping(method = RequestMethod.PUT)

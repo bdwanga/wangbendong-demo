@@ -28,9 +28,9 @@ public class UsersMangerController
     @ResponseBody
     public JsonResult<List<UserBean>> queryAllUsers()
     {
-        List userList = usersMangerService.queryAllUsers();
+        List<UserBean> userList = usersMangerService.queryAllUsers();
 
-        return new JsonResult(userList);
+        return new JsonResult<>(userList);
     }
 
     @RequestMapping(value = "/bypage" ,method = RequestMethod.GET)
@@ -40,7 +40,7 @@ public class UsersMangerController
     {
         PageInfo pageData = usersMangerService.queryUsersByPage(page);
 
-        return new JsonResult(pageData);
+        return new JsonResult<>(pageData);
     }
 
     @RequestMapping(method = RequestMethod.POST)
@@ -50,7 +50,7 @@ public class UsersMangerController
     {
         usersMangerService.saveUser(user);
 
-        return new JsonResult(user);
+        return new JsonResult<>(user);
     }
 
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
@@ -60,7 +60,7 @@ public class UsersMangerController
     {
         UserBean user = usersMangerService.queryUserById(userId);
 
-        return new JsonResult(user);
+        return new JsonResult<>(user);
     }
 
     @RequestMapping(value = "/byname/{userName}", method = RequestMethod.GET)
@@ -70,7 +70,7 @@ public class UsersMangerController
     {
         UserBean user = usersMangerService.queryUserByName(userName);
 
-        return new JsonResult(user);
+        return new JsonResult<>(user);
     }
 
     @RequestMapping(method = RequestMethod.PUT)

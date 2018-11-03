@@ -57,9 +57,9 @@ public class UserController
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "查询用户信息列表", response = PageInfo.class)
     @ResponseBody
-    public PageInfo queryUsers(@RequestParam("userName") @ApiParam("用户名") String userName,
-                               @RequestParam("pageIndex") @ApiParam("起始页数") int pageIndex,
-                               @RequestParam("pageSize") @ApiParam("每页大小") int pageSize)
+    public PageInfo<UserBean> queryUsers(@RequestParam("userName") @ApiParam("用户名") String userName,
+                                         @RequestParam("pageIndex") @ApiParam("起始页数") int pageIndex,
+                                         @RequestParam("pageSize") @ApiParam("每页大小") int pageSize)
     {
         return userService.queryUsers(userName, pageIndex, pageSize);
     }
@@ -113,8 +113,8 @@ public class UserController
     @RequestMapping(value = "/actions/sign", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录")
     @ResponseBody
-    public void signIn(@RequestParam("userName") @ApiParam("用户名") String userName,
-                       @RequestParam("password") @ApiParam("密码") String password,
+    public void signIn(@RequestParam("userName") @ApiParam(value = "用户名", required = true) String userName,
+                       @RequestParam("password") @ApiParam(value = "密码", required = true) String password,
                        HttpSession session,
                        HttpServletResponse response) throws ServiceException
     {

@@ -1,7 +1,11 @@
 package com.wbd.org.model;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.io.Serializable;
 
+@ApiModel(value = "OrgBean", description = "组织机构信息")
 public class OrgBean implements Serializable
 {
     private static final long serialVersionUID = 4194249033374012474L;
@@ -9,16 +13,19 @@ public class OrgBean implements Serializable
     /**
      * 组织单位ID
      */
+    @ApiModelProperty(value="组织单位ID")
     private String orgId;
 
     /**
      * 组织单位名称
      */
+    @ApiModelProperty(value="组织单位名称")
     private String orgName;
 
     /**
      * 上级组织id
      */
+    @ApiModelProperty(value="上级组织ID")
     private String parentId;
 
     /**

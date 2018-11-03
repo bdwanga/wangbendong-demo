@@ -19,7 +19,7 @@ public class InterceptorConfig implements WebMvcConfigurer
     {
         registry.addInterceptor(new SignInterceptor())
                 .addPathPatterns("/**")
-                .excludePathPatterns("/api/usersmanger/actions/sign","/static/**")
+                .excludePathPatterns("/api/users/actions/sign","/static/**")
                 .excludePathPatterns("/swagger-resources/**", "/webjars/**", "/v2/**", "/swagger-ui.html/**");
 
         WebMvcConfigurer.super.addInterceptors(registry);

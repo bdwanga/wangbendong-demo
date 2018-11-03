@@ -25,11 +25,11 @@ public class SignInterceptor implements HandlerInterceptor
      * @return
      * @throws Exception
      */
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
+    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws ServiceException
     {
         // 检查每个到来的请求对应的session域中是否有登录标识
-        Object loginName = request.getSession().getAttribute("curUser");
-        if (null == loginName)
+        Object curUser = request.getSession().getAttribute("curUser");
+        if (null == curUser)
         {
             throw new ServiceException(ErrorEnum.NOT_LOGIN, HttpStatus.UNAUTHORIZED);
         }

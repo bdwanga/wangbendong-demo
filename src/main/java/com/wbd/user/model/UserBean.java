@@ -1,4 +1,4 @@
-package com.wbd.usersmanger.bean;
+package com.wbd.user.model;
 
 import java.io.Serializable;
 

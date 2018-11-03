@@ -1,19 +1,28 @@
-package com.wbd.orgsmanger.dao;
+package com.wbd.org.dao;
 
-import com.wbd.orgsmanger.bean.OrgBean;
+import com.wbd.org.model.OrgBean;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+/**
+ * 组织管理dao接口
+ * <p>
+ * 定义了用户的增删改查等接口
+ *
+ * @author wangbendong
+ * @version 1.0 2018.10.31
+ * @since 1.8
+ */
 @Mapper
-public interface IOrgsMangerDao
+public interface IOrgDao
 {
     /**
      * 保存组织单位
      *
      * @param org
      */
-    public void saveOrg(OrgBean org);
+    public void insertOrg(OrgBean org);
 
     /**
      * 根据ID查询组织单位
@@ -30,10 +39,10 @@ public interface IOrgsMangerDao
     public OrgBean queryOrgByName(String orgName);
 
     /**
-     * 查询所有的用户
+     * 查询用户列表
      *
      */
-    public List<OrgBean> queryAllOrgs();
+    public List<OrgBean> queryOrgs(String orgName);
 
     /**
      * 更新组织单位

@@ -3,7 +3,7 @@ package com.wbd.exception;
 import com.wbd.enums.ErrorEnum;
 import org.springframework.http.HttpStatus;
 
-public class ServiceException extends RuntimeException
+public class ServiceException extends Exception
 {
     private final static String ERROR_CODE = "ErrCode: ";
 
@@ -81,7 +81,7 @@ public class ServiceException extends RuntimeException
      * 构造方法.
      *
      * @param errorEnum 异常枚举
-     * @param httpStatus
+     * @param httpStatus 返回HTTP状态
      */
     public ServiceException(ErrorEnum errorEnum,HttpStatus httpStatus)
     {

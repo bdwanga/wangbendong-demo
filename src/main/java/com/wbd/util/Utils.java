@@ -58,7 +58,7 @@ public class Utils
      * @param data
      * @param errorEnum
      */
-    public static void assertNotNull(Object data, ErrorEnum errorEnum)
+    public static void assertNotNull(Object data, ErrorEnum errorEnum) throws ServiceException
     {
         if (null == data)
         {
@@ -77,7 +77,7 @@ public class Utils
      * @param data
      * @param errorEnum
      */
-    public static void assertNull(Object data, ErrorEnum errorEnum)
+    public static void assertNull(Object data, ErrorEnum errorEnum) throws ServiceException
     {
         if (null == data)
         {
@@ -99,7 +99,7 @@ public class Utils
      * @param compareData
      * @param errorEnum
      */
-    public static void assertStrEquals(String data, String compareData, ErrorEnum errorEnum)
+    public static void assertStrEquals(String data, String compareData, ErrorEnum errorEnum) throws ServiceException
     {
         if (!StringUtils.equals(data, compareData))
         {

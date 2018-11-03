@@ -1,4 +1,4 @@
-package com.wbd.orgsmanger.bean;
+package com.wbd.org.model;
 
 import java.io.Serializable;
 

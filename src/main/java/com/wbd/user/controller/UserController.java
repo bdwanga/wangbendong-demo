@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -35,10 +34,10 @@ public class UserController
     /**
      * 根据id查询用户信息
      *
-     * @param userId  用户id
+     * @param userId 用户id
      * @return 用户数据
      */
-    @RequestMapping(value = "/{userId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     @ApiOperation(value = "根据id查询用户信息", response = UserBean.class)
     @ResponseBody
     public UserBean getUser(@PathVariable("userId") @ApiParam("用户ID") String userId)
@@ -84,7 +83,7 @@ public class UserController
      * @param user 用户信息
      * @throws ServiceException
      */
-    @RequestMapping(method = RequestMethod.PUT)
+    @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     @ApiOperation(value = "修改用户信息")
     public void modifyUser(@RequestBody @ApiParam("需要更新的用户信息") UserBean user, HttpServletResponse response) throws ServiceException
     {

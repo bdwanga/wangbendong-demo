@@ -4,7 +4,6 @@ import com.github.pagehelper.PageInfo;
 import com.wbd.exception.ServiceException;
 import com.wbd.org.model.OrgBean;
 import com.wbd.org.service.IOrgService;
-import com.wbd.util.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -35,10 +34,10 @@ public class OrgController
     /**
      * 根据id查询组织信息
      *
-     * @param orgId  组织id
+     * @param orgId 组织id
      * @return 用户数据
      */
-    @RequestMapping(value = "/{orgId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{orgId}", method = RequestMethod.GET)
     @ApiOperation(value = "根据id查询组织信息", response = OrgBean.class)
     @ResponseBody
     public OrgBean getOrg(@PathVariable("orgId") @ApiParam("用户ID") String orgId)
@@ -71,8 +70,8 @@ public class OrgController
      * @throws ServiceException
      */
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(value = "创建组织单位", response = JsonResult.class)
-    public void createOrg(@ApiParam("需要保存的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
+    @ApiOperation(value = "创建组织单位")
+    public void createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
     {
         orgService.createOrg(org);
     }
@@ -85,7 +84,7 @@ public class OrgController
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.PUT)
     @ApiOperation(value = "修改组织单位信息")
-    public void modifyOrg(@ApiParam("需要更新的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
+    public void modifyOrg(@RequestBody @ApiParam("需要更新的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
     {
         orgService.modifyOrg(org);
     }

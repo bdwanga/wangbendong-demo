@@ -2,6 +2,7 @@ package com.wbd.org.dao;
 
 import com.wbd.org.model.OrgBean;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -29,20 +30,19 @@ public interface IOrgDao
      *
      * @param orgId
      */
-    public OrgBean queryOrgById(String orgId);
+    public OrgBean queryOrgById(@Param(value = "orgId") String orgId);
 
     /**
      * 根据组织名称查询组织单位
      *
      * @param orgName
      */
-    public OrgBean queryOrgByName(String orgName);
+    public OrgBean queryOrgByName(@Param(value = "orgName") String orgName);
 
     /**
      * 查询用户列表
-     *
      */
-    public List<OrgBean> queryOrgs(String orgName);
+    public List<OrgBean> queryOrgs(@Param(value = "orgName") String orgName);
 
     /**
      * 更新组织单位
@@ -56,5 +56,5 @@ public interface IOrgDao
      *
      * @param orgId
      */
-    public int deleteOrg(String orgId);
+    public int deleteOrg(@Param(value = "orgId") String orgId);
 }

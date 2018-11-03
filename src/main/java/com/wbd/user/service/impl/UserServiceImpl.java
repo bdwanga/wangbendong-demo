@@ -37,7 +37,7 @@ public class UserServiceImpl implements IUserService
     /**
      * 根据id查询用户信息
      *
-     * @param userId  用户名
+     * @param userId 用户名
      * @return 用户数据
      */
     @Override
@@ -102,6 +102,9 @@ public class UserServiceImpl implements IUserService
         //校验用户名和密码不能为空
         Utils.assertNotNull(user.getName(), ErrorEnum.LACK_USER_NAME);
         Utils.assertNotNull(user.getPassword(), ErrorEnum.LACK_USER_PASSWORD);
+
+        //校验用户ID是否存在
+        Utils.assertNotNull(userDao.queryUserById(user.getId()), ErrorEnum.ERROR_USER_ID);
 
         //判读修改用户名是否被使用
         UserBean userInfo = userDao.queryUserByName(user.getName());

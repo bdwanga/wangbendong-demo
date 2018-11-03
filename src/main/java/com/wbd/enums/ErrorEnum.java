@@ -19,7 +19,8 @@ public enum ErrorEnum
     ERROR_ORG_INUSE("00014","组织已存在错误"),
     MODIFY_USER_NAME_INUSE("00015","修改的用户名已被其他用户使用"),
     ERROR_ORG_ID("00016","组织机构不存在"),
-    MODIFY_ORG_NAME_INUSE("00017","修改的用户名已被其他用户使用");
+    MODIFY_ORG_NAME_INUSE("00017","修改的用户名已被其他用户使用"),
+    ERROR_USER_ID("00018","用户ID不存在");
 
     private String code;
 

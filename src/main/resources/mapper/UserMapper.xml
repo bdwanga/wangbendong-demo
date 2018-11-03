@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wbd.user.dao.IUserDao">
-	<resultMap type="com.wbd.user.model.UserBean" id="USER_MAP">
+<mapper namespace="com.primeton.wbd.user.dao.IUserDao">
+	<resultMap type="com.primeton.wbd.user.model.UserBean" id="USER_MAP">
 		<result property="id" column="USER_ID" />
 		<result property="name" column="USER_NAME" />
 		<result property="password" column="USER_PASSWORD" />
@@ -16,7 +16,7 @@
     </sql>
 
 	<!-- 保存用户信息，自动生成主键-->
-	<insert id="insertUser" parameterType="com.wbd.user.model.UserBean" useGeneratedKeys="true" keyProperty="id">
+	<insert id="insertUser" parameterType="com.primeton.wbd.user.model.UserBean" useGeneratedKeys="true" keyProperty="id">
 		INSERT INTO USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG)
 		VALUES
 		(#{name}, #{password}, #{token}, #{nick},#{orgId})
@@ -47,7 +47,7 @@
     </select>
 
 	<!-- 更新用户信息-->
-	<update id="updateUser" parameterType="com.wbd.user.model.UserBean">
+	<update id="updateUser" parameterType="com.primeton.wbd.user.model.UserBean">
 	UPDATE USER A
         SET
 				A.USER_NAME=#{name},

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.wbd.org.dao.IOrgDao">
+<mapper namespace="com.primeton.wbd.org.dao.IOrgDao">
 
     <sql id="ORG_COLUMN_LIST">
         A.ORG_ID ORGID,A.ORG_NAME ORGNAME,A.PARENT_ID PARENTID,B.ORG_NAME PARENTNAME
     </sql>
 
     <!-- 保存组织机构 -->
-    <insert id="insertOrg" parameterType="com.wbd.org.model.OrgBean">
+    <insert id="insertOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
 		INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID)
 		VALUES
 		(#{orgId}, #{orgName}, #{parentId})
 	</insert>
     <!-- 通过id查询用户-->
-    <select id="queryOrgById" parameterType="string" resultType="com.wbd.org.model.OrgBean">
+    <select id="queryOrgById" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
@@ -21,7 +21,7 @@
     </select>
 
     <!-- 通过组织名称查询用户-->
-    <select id="queryOrgByName" parameterType="string" resultType="com.wbd.org.model.OrgBean">
+    <select id="queryOrgByName" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
@@ -29,7 +29,7 @@
     </select>
 
     <!-- 查询所有的用户-->
-    <select id="queryOrgs" resultType="com.wbd.org.model.OrgBean">
+    <select id="queryOrgs" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
@@ -41,7 +41,7 @@
     </select>
 
     <!-- 更新用户信息-->
-    <update id="updateOrg" parameterType="com.wbd.org.model.OrgBean">
+    <update id="updateOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
 	UPDATE ORGANIZATION O
         SET  O.ORG_NAME=#{orgName},
              O.PARENT_ID=#{parentId}

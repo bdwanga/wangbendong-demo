@@ -20,7 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 实现用户的增删改查和用户登陆功能
  *
  * @author wangbendong
- * @version 1.0 2018.10.31
+ * @date 2018.10.31
+ * @version 1.0
  * @since 1.8
  */
 @Service("usersMangerService")

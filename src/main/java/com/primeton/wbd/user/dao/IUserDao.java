@@ -6,6 +6,16 @@ import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
+/**
+ * 用户管理dao接口
+ * <p>
+ * 定义了用户的增删改查等接口
+ *
+ * @author wangbendong
+ * @date 2018.10.31
+ * @version 1.0
+ * @since 1.8
+ * */
 @Mapper
 public interface IUserDao
 {

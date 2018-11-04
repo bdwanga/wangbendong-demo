@@ -10,7 +10,8 @@ import com.primeton.wbd.user.model.UserBean;
  * 定义了用户的增删改查和用户登陆接口等
  *
  * @author wangbendong
- * @version 1.0 2018.10.31
+ * @date 2018.10.31
+ * @version 1.0
  * @since 1.8
  */
 public interface IUserService

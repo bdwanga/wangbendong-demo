@@ -80,12 +80,6 @@ public class UserServiceImpl implements IUserService
         //如果查询出结果抛出用户已存在错误
         Utils.assertNull(userDao.queryUserByName(user.getName()), ErrorEnum.ERROR_USER_INUSE);
 
-        //存在组织机构id，校验填写的组织机构必须存在
-        if (StringUtils.isNotEmpty(user.getOrgId()))
-        {
-            Utils.assertNotNull(orgDao.queryOrgById(user.getOrgId()), ErrorEnum.ERROR_ORG_ID);
-        }
-
         userDao.insertUser(user);
     }
 
@@ -112,12 +106,6 @@ public class UserServiceImpl implements IUserService
         if (null != userInfo && !StringUtils.equals(userInfo.getId(), user.getId()))
         {
             throw new ServiceException(ErrorEnum.MODIFY_USER_NAME_INUSE);
-        }
-
-        //存在组织机构id，校验填写的组织机构必须存在
-        if (StringUtils.isNotEmpty(user.getOrgId()))
-        {
-            Utils.assertNotNull(orgDao.queryOrgById(user.getOrgId()), ErrorEnum.ERROR_ORG_ID);
         }
 
         //更新数据

@@ -84,20 +84,23 @@ public class OrgController
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.PUT)
     @ApiOperation(value = "修改组织单位信息")
-    public void modifyOrg(@RequestBody @ApiParam("需要更新的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
+    @ResponseBody
+    public OrgBean modifyOrg(@RequestBody @ApiParam("需要更新的组织信息") OrgBean org) throws ServiceException
     {
-        orgService.modifyOrg(org);
+       return orgService.modifyOrg(org);
     }
 
     /**
      * 删除组织单位
      *
-     * @param orgId
+     * @param  orgId 组织id
+     * @throws ServiceException
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "删除组织")
-    public void removeOrg(@PathVariable("orgId") @ApiParam("需要删除组织id") String orgId, HttpServletResponse response)
+    @ResponseBody
+    public OrgBean removeOrg(@PathVariable("orgId") @ApiParam("需要删除组织id") String orgId) throws ServiceException
     {
-        orgService.removeOrg(orgId);
+        return orgService.removeOrg(orgId);
     }
 }

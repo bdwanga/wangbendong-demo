@@ -97,7 +97,7 @@ public class UserServiceImpl implements IUserService
      * @throws ServiceException
      */
     @Override
-    public int modifyUser(UserBean user) throws ServiceException
+    public UserBean modifyUser(UserBean user) throws ServiceException
     {
         //校验用户名和密码不能为空
         Utils.assertNotNull(user.getName(), ErrorEnum.LACK_USER_NAME);
@@ -120,7 +120,10 @@ public class UserServiceImpl implements IUserService
             Utils.assertNotNull(orgDao.queryOrgById(user.getOrgId()), ErrorEnum.ERROR_ORG_ID);
         }
 
-        return userDao.updateUser(user);
+        //更新数据
+        userDao.updateUser(user);
+
+        return userDao.queryUserById(user.getId());
     }
 
     /**
@@ -130,9 +133,16 @@ public class UserServiceImpl implements IUserService
      * @return 删除条数
      */
     @Override
-    public int removeUser(String id)
+    public UserBean removeUser(String id) throws ServiceException
     {
-        return userDao.deleteUser(id);
+        //先判断用户是否存在
+        UserBean user = userDao.queryUserById(id);
+
+        Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
+
+        userDao.deleteUser(id);
+
+        return user;
     }
 
     /**
@@ -149,7 +159,7 @@ public class UserServiceImpl implements IUserService
         UserBean user = userDao.queryUserByName(name);
 
         //如果未查询出结果抛出用户不存在错误
-        Utils.assertNotNull(user, ErrorEnum.ERROR_USER_NAME);
+        Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
 
         //密码错误抛出密码错误异常
         Utils.assertStrEquals(user.getPassword(), password, ErrorEnum.ERROR_USER_PASSWPRD);

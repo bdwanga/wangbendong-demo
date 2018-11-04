@@ -41,7 +41,7 @@
         FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
         WHERE 1=1
         <if test="name != null and name !=''">
-            AND A.USER_NAME LIKE '%' || #{name} || '%'
+            AND A.USER_NAME LIKE "%"#{name}"%"
         </if>
         ORDER BY A.USER_ID
     </select>

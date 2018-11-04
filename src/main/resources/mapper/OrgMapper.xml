@@ -35,7 +35,7 @@
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
         WHERE 1=1
         <if test="orgName != null and orgName !=''">
-            AND A.ORG_NAME LIKE '%' || #{orgName} || '%'
+            AND A.ORG_NAME LIKE "%"#{orgName}"%"
         </if>
         ORDER BY A.ORG_ID
     </select>

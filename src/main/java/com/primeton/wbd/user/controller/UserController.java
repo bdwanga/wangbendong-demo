@@ -85,9 +85,10 @@ public class UserController
      */
     @RequestMapping(value = "/{userId}", method = RequestMethod.PUT)
     @ApiOperation(value = "修改用户信息")
-    public void modifyUser(@RequestBody @ApiParam("需要更新的用户信息") UserBean user, HttpServletResponse response) throws ServiceException
+    @ResponseBody
+    public UserBean modifyUser(@RequestBody @ApiParam("需要更新的用户信息") UserBean user) throws ServiceException
     {
-        userService.modifyUser(user);
+        return userService.modifyUser(user);
     }
 
     /**
@@ -98,9 +99,10 @@ public class UserController
      */
     @RequestMapping(value = "/{userId}", method = RequestMethod.DELETE)
     @ApiOperation(value = "根据ID删除用户")
-    public void removeUser(@PathVariable("userId") @ApiParam("需要删除用户id") String userId) throws ServiceException
+    @ResponseBody
+    public UserBean removeUser(@PathVariable("userId") @ApiParam("需要删除用户id") String userId) throws ServiceException
     {
-        userService.removeUser(userId);
+        return userService.removeUser(userId);
     }
 
     /**

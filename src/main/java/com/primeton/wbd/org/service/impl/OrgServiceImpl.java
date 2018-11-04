@@ -54,8 +54,9 @@ public class OrgServiceImpl implements IOrgService
         Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
 
-        //如果查询出结果抛出组织ID已存在错误
-        Utils.assertNull(orgDao.queryOrgById(org.getOrgId()), ErrorEnum.ERROR_ORG_INUSE);
+        //校验组织id和名称不能重复
+        Utils.assertNull(orgDao.queryOrgById(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
+        Utils.assertNull(orgDao.queryOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
 
         orgDao.insertOrg(org);
     }
@@ -85,7 +86,7 @@ public class OrgServiceImpl implements IOrgService
      */
     @Override
     @Transactional
-    public int modifyOrg(OrgBean org) throws ServiceException
+    public OrgBean modifyOrg(OrgBean org) throws ServiceException
     {
         //组织名称不能为空
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
@@ -98,7 +99,9 @@ public class OrgServiceImpl implements IOrgService
             throw new ServiceException(ErrorEnum.MODIFY_ORG_NAME_INUSE);
         }
 
-        return orgDao.updateOrg(org);
+        orgDao.updateOrg(org);
+
+        return orgDao.queryOrgById(org.getOrgId());
     }
 
     /**
@@ -108,8 +111,14 @@ public class OrgServiceImpl implements IOrgService
      */
     @Override
     @Transactional
-    public int removeOrg(String orgId)
+    public OrgBean removeOrg(String orgId) throws ServiceException
     {
-        return orgDao.deleteOrg(orgId);
+        OrgBean org = orgDao.queryOrgById(orgId);
+
+        Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
+
+        orgDao.deleteOrg(orgId);
+
+        return org;
     }
 }

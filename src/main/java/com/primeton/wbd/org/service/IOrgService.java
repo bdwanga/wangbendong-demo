@@ -48,12 +48,12 @@ public interface IOrgService
      * @param org
      * @throws ServiceException
      */
-    public int modifyOrg(OrgBean org) throws ServiceException;
+    public OrgBean modifyOrg(OrgBean org) throws ServiceException;
 
     /**
      * 删除组织单位
      *
      * @param orgId
      */
-    public int removeOrg(String orgId);
+    public OrgBean removeOrg(String orgId) throws ServiceException;
 }

@@ -48,7 +48,7 @@ public interface IUserService
      * @return 更新条数
      * @throws ServiceException
      */
-    public int modifyUser(UserBean user) throws ServiceException;
+    public UserBean modifyUser(UserBean user) throws ServiceException;
 
     /**
      * 根据ID删除用户
@@ -57,7 +57,7 @@ public interface IUserService
      * @return 删除条数
      * @throws ServiceException
      */
-    public int removeUser(String id) throws ServiceException;
+    public UserBean removeUser(String id) throws ServiceException;
 
     /**
      * 用户登录

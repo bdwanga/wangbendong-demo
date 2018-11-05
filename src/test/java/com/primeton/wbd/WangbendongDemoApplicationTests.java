@@ -8,13 +8,22 @@ import com.primeton.wbd.org.model.OrgBean;
 import com.primeton.wbd.user.controller.UserController;
 import com.primeton.wbd.user.dao.IUserDao;
 import com.primeton.wbd.user.model.UserBean;
-import com.primeton.wbd.user.service.IUserService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -30,16 +39,24 @@ public class WangbendongDemoApplicationTests
     private IUserDao userDao;
 
     @Autowired
-    private IUserService userService;
+    private IOrgDao orgDao;
 
     @Autowired
-    private IOrgDao orgDao;
+    private WebApplicationContext wac;
+
+    private MockMvc mvc;
+
+    @Before
+    public void setUp()
+    {
+        mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
 
     /**
      * 用户管理测试
      */
     @Test
-    public void userTestCase() throws ServiceException
+    public void userTestCase() throws Exception
     {
         //构造测试user信息
         UserBean user = buildTestUserBean();
@@ -99,10 +116,20 @@ public class WangbendongDemoApplicationTests
      * @param user
      * @throws ServiceException
      */
-    private void testSignIn(UserBean user) throws ServiceException
+    private void testSignIn(UserBean user) throws Exception
     {
-        //登陆
-        userService.signIn(user.getName(), user.getPassword());
+        // 构建请求
+        MockHttpServletRequestBuilder request = MockMvcRequestBuilders.post("/api/users/actions/sign").param("userName", "wangbd").param(
+                "password", "123");
+
+        // 发送请求，获取请求结果
+        ResultActions perform = mvc.perform(request);
+
+        // 请求结果校验
+        perform.andExpect(MockMvcResultMatchers.status().isOk());
+
+        MvcResult mvcResult = perform.andReturn();
+        MockHttpServletResponse response = mvcResult.getResponse();
     }
 
     /**
@@ -114,11 +141,11 @@ public class WangbendongDemoApplicationTests
     private void testModifyPassword(UserBean user) throws ServiceException
     {
         //登陆
-        userService.modifyPassword(user.getId(), user.getPassword(),"1234");
+        userController.modifyPassword(user.getId(), user.getPassword(), "1234", null);
 
-        UserBean user1 = userService.getUser(user.getId());
+        UserBean user1 = userController.getUser(user.getId());
 
-        Assert.assertEquals("测试修改用户密码异常",user1.getPassword(),"1234");
+        Assert.assertEquals("测试修改用户密码异常", user1.getPassword(), "1234");
     }
 
     /**

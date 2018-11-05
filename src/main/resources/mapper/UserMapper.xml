@@ -58,6 +58,15 @@
 		A.USER_ID=#{id}
 	</update>
 
+	<!-- 更新用户信息-->
+	<update id="updatePassword" parameterType="string">
+	UPDATE USER A
+        SET
+				A.USER_PASSWORD=#{newPassword}
+	WHERE
+		A.USER_ID=#{id}
+	</update>
+
     <!-- 更新用户信息-->
     <delete  id="deleteUser" parameterType="string">
 	 DELETE FROM USER

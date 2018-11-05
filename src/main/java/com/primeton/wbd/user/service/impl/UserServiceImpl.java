@@ -161,4 +161,26 @@ public class UserServiceImpl implements IUserService
 
         return user;
     }
+
+    /**
+     * 更新用户密码
+     *
+     * @param id          用户ID
+     * @param newPassword 新密码
+     * @return
+     */
+    @Override
+    @Transactional()
+    public void modifyPassword(String id, String oldPassword, String newPassword) throws ServiceException
+    {
+        //先判断用户是否存在
+        UserBean user = userDao.queryUserById(id);
+
+        Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
+
+        //判断原密码
+        Utils.assertStrEquals(oldPassword, user.getPassword(), ErrorEnum.ERROR_USER_PASSWPRD);
+
+        userDao.updatePassword(id, newPassword);
+    }
 }

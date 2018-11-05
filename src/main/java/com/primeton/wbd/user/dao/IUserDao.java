@@ -12,10 +12,10 @@ import java.util.List;
  * 定义了用户的增删改查等接口
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
- * */
+ */
 @Mapper
 public interface IUserDao
 {
@@ -28,7 +28,7 @@ public interface IUserDao
     public List<UserBean> queryUsers(@Param(value = "name") String name);
 
     /**
-     *  插入用户数据
+     * 插入用户数据
      *
      * @param user 用户数据
      */
@@ -57,6 +57,15 @@ public interface IUserDao
      * @return
      */
     public int updateUser(UserBean user);
+
+    /**
+     * 更新用户密码
+     *
+     * @param id          用户ID
+     * @param newPassword 新密码
+     * @return
+     */
+    public int updatePassword(@Param(value = "id") String id, @Param(value = "newPassword") String newPassword);
 
     /**
      * 根据用户ID删除用户

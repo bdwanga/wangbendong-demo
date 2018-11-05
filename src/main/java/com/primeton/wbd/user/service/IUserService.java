@@ -68,4 +68,14 @@ public interface IUserService
      * @throws ServiceException
      */
     public UserBean signIn(String name, String password) throws ServiceException;
+
+    /**
+     * 更新用户密码
+     *
+     * @param id 用户ID
+     * @param newPassword 新密码
+     *
+     * @return
+     */
+    public void modifyPassword(String id,String oldPassword,String newPassword) throws ServiceException;
 }

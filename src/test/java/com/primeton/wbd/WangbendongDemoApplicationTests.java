@@ -53,6 +53,8 @@ public class WangbendongDemoApplicationTests
         testModifyUser(user);
         //测试登陆
         testSignIn(user);
+        //测试修改密码
+        testModifyPassword(user);
         //测试删除用户
         testRemoveUser(user);
     }
@@ -101,6 +103,22 @@ public class WangbendongDemoApplicationTests
     {
         //登陆
         userService.signIn(user.getName(), user.getPassword());
+    }
+
+    /**
+     * 测试修改密码
+     *
+     * @param user
+     * @throws ServiceException
+     */
+    private void testModifyPassword(UserBean user) throws ServiceException
+    {
+        //登陆
+        userService.modifyPassword(user.getId(), user.getPassword(),"1234");
+
+        UserBean user1 = userService.getUser(user.getId());
+
+        Assert.assertEquals("测试修改用户密码异常",user1.getPassword(),"1234");
     }
 
     /**

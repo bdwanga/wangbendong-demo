@@ -20,8 +20,8 @@ import javax.servlet.http.HttpSession;
  * 提供用户的增删改查和用户登陆等接口
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 @Controller("userController")
@@ -132,10 +132,27 @@ public class UserController
      */
     @RequestMapping(value = "/actions/sign", method = RequestMethod.DELETE)
     @ApiOperation(value = "用户退出")
-    @ResponseBody
     public void signOut(HttpSession session, HttpServletResponse response)
     {
         //清除session中的所用信息
         session.invalidate();
+    }
+
+    /**
+     * 修改密码
+     *
+     * @param userId 用户ID
+     * @param oldPassword 原密码
+     * @param newPassword 新密码
+     * @throws ServiceException
+     */
+    @RequestMapping(value = "/actions/modifyPassword", method = RequestMethod.POST)
+    @ApiOperation(value = "修改密码")
+    public void modifyPassword(@RequestParam("userId") @ApiParam(value = "用户ID", required = true) String userId,
+                               @RequestParam("oldPassword") @ApiParam(value = "原密码", required = true) String oldPassword,
+                               @RequestParam("newPassword") @ApiParam(value = "新密码", required = true) String newPassword,
+                               HttpServletResponse response) throws ServiceException
+    {
+        userService.modifyPassword(userId, oldPassword, newPassword);
     }
 }

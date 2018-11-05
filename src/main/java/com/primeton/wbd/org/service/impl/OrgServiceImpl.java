@@ -6,8 +6,8 @@ import com.primeton.wbd.enums.ErrorEnum;
 import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.org.dao.IOrgDao;
 import com.primeton.wbd.org.model.OrgBean;
-import com.primeton.wbd.util.Utils;
 import com.primeton.wbd.org.service.IOrgService;
+import com.primeton.wbd.util.Utils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -19,8 +19,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 实现了用户的增删改查和用户登陆接口等
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 @Service("orgMangerService")
@@ -36,9 +36,14 @@ public class OrgServiceImpl implements IOrgService
      * @param orgId
      * @return 组织机构信息
      */
-    public OrgBean getOrg(String orgId)
+    public OrgBean getOrg(String orgId) throws ServiceException
     {
-        return orgDao.queryOrgById(orgId);
+        OrgBean org = orgDao.getOrg(orgId);
+
+        //校验是否为空
+        Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
+
+        return org;
     }
 
     /**
@@ -56,8 +61,8 @@ public class OrgServiceImpl implements IOrgService
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
 
         //校验组织id和名称不能重复
-        Utils.assertNull(orgDao.queryOrgById(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
-        Utils.assertNull(orgDao.queryOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
+        Utils.assertNull(orgDao.getOrg(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
+        Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
 
         orgDao.insertOrg(org);
     }
@@ -93,7 +98,7 @@ public class OrgServiceImpl implements IOrgService
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
 
         //存校验填写的组织机构名称不能重复
-        OrgBean orgInfo = orgDao.queryOrgByName(org.getOrgName());
+        OrgBean orgInfo = orgDao.getOrgByName(org.getOrgName());
 
         if (null != orgInfo && !StringUtils.equals(orgInfo.getOrgId(), org.getOrgId()))
         {
@@ -102,7 +107,7 @@ public class OrgServiceImpl implements IOrgService
 
         orgDao.updateOrg(org);
 
-        return orgDao.queryOrgById(org.getOrgId());
+        return orgDao.getOrg(org.getOrgId());
     }
 
     /**
@@ -114,7 +119,7 @@ public class OrgServiceImpl implements IOrgService
     @Transactional
     public OrgBean removeOrg(String orgId) throws ServiceException
     {
-        OrgBean org = orgDao.queryOrgById(orgId);
+        OrgBean org = orgDao.getOrg(orgId);
 
         Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
 

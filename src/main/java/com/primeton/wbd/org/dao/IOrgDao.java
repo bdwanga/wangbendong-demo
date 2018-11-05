@@ -31,14 +31,14 @@ public interface IOrgDao
      *
      * @param orgId
      */
-    public OrgBean queryOrgById(@Param(value = "orgId") String orgId);
+    public OrgBean getOrg(@Param(value = "orgId") String orgId);
 
     /**
      * 根据组织名称查询组织单位
      *
      * @param orgName
      */
-    public OrgBean queryOrgByName(@Param(value = "orgName") String orgName);
+    public OrgBean getOrgByName(@Param(value = "orgName") String orgName);
 
     /**
      * 查询用户列表

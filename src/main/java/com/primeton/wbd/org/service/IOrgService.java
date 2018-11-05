@@ -10,8 +10,8 @@ import com.primeton.wbd.org.model.OrgBean;
  * 定义了用户的增删改查和用户登陆接口等
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 public interface IOrgService
@@ -23,7 +23,7 @@ public interface IOrgService
      * @param orgId
      * @return 组织机构信息
      */
-    public OrgBean getOrg(String orgId);
+    public OrgBean getOrg(String orgId) throws ServiceException;
 
     /**
      * 保存组织单位

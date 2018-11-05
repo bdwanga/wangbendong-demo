@@ -27,7 +27,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class WangbendongDemoApplicationTests
+public class WangbendongDemoTestCase
 {
     @Autowired
     private UserController userController;
@@ -56,7 +56,7 @@ public class WangbendongDemoApplicationTests
      * 用户管理测试
      */
     @Test
-    public void userTestCase() throws Exception
+    public void testUser() throws Exception
     {
         //构造测试user信息
         UserBean user = buildTestUserBean();
@@ -80,7 +80,7 @@ public class WangbendongDemoApplicationTests
      * 组织机构管理测试
      */
     @Test
-    public void orgTestCase() throws ServiceException
+    public void testOrg() throws ServiceException
     {
         //构造orgBean
         OrgBean org = buildOrgBean();
@@ -171,7 +171,7 @@ public class WangbendongDemoApplicationTests
      *
      * @param user
      */
-    private void testGetUser(UserBean user)
+    private void testGetUser(UserBean user) throws ServiceException
     {
         //根据ID查询用户
         UserBean user1 = userController.getUser(user.getId());
@@ -233,11 +233,11 @@ public class WangbendongDemoApplicationTests
         user.setOrgId("00");
 
         //先删防止插入用户名冲突
-        UserBean user1 = userDao.queryUserByName(user.getName());
+        UserBean user1 = userDao.getUserByName(user.getName());
         if (user1 != null)
         {
             userController.removeUser(user1.getId());
-            Assert.assertNull("测试删除用户信息异常", userDao.queryUserByName(user.getName()));
+            Assert.assertNull("测试删除用户信息异常", userDao.getUserByName(user.getName()));
         }
 
         return user;
@@ -261,7 +261,7 @@ public class WangbendongDemoApplicationTests
         Assert.assertEquals("更新组织机构异常", org1.getParentName(), org1.getParentName());
     }
 
-    private OrgBean testGetOrg(OrgBean org)
+    private OrgBean testGetOrg(OrgBean org) throws ServiceException
     {
         OrgBean org1 = orgController.getOrg(org.getOrgId());
 
@@ -300,11 +300,11 @@ public class WangbendongDemoApplicationTests
         org.setParentId("00");
 
         //先删防止插入用户名冲突
-        OrgBean org1 = orgDao.queryOrgByName(org.getOrgName());
+        OrgBean org1 = orgDao.getOrgByName(org.getOrgName());
         if (org1 != null)
         {
             orgController.removeOrg(org1.getOrgId());
-            Assert.assertNull("测试删除组织机构异常", orgDao.queryOrgByName(org.getOrgName()));
+            Assert.assertNull("测试删除组织机构异常", orgDao.getOrgByName(org.getOrgName()));
         }
 
         return org;

@@ -38,23 +38,23 @@ public interface IUserDao
      * 根据ID查询用户信息
      *
      * @param id 用户ID
-     * @return
+     * @return 用户信息
      */
-    public UserBean queryUserById(@Param(value = "id") String id);
+    public UserBean getUser(@Param(value = "id") String id);
 
     /**
      * 根据用户名查询用户数据，精确匹配用户名
      *
      * @param name 用户名
-     * @return
+     * @return 用户信息
      */
-    public UserBean queryUserByName(@Param(value = "name") String name);
+    public UserBean getUserByName(@Param(value = "name") String name);
 
     /**
      * 更新用户信息
      *
      * @param user 用户信息
-     * @return
+     * @return 修改条数
      */
     public int updateUser(UserBean user);
 
@@ -63,7 +63,7 @@ public interface IUserDao
      *
      * @param id          用户ID
      * @param newPassword 新密码
-     * @return
+     * @return 修改条数
      */
     public int updatePassword(@Param(value = "id") String id, @Param(value = "newPassword") String newPassword);
 
@@ -71,7 +71,7 @@ public interface IUserDao
      * 根据用户ID删除用户
      *
      * @param id 用户ID
-     * @return
+     * @return 删除条数
      */
     public int deleteUser(@Param(value = "id") String id);
 }

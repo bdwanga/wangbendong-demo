@@ -13,7 +13,7 @@
 		(#{orgId}, #{orgName}, #{parentId})
 	</insert>
     <!-- 通过id查询用户-->
-    <select id="queryOrgById" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
+    <select id="getOrg" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
@@ -21,7 +21,7 @@
     </select>
 
     <!-- 通过组织名称查询用户-->
-    <select id="queryOrgByName" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
+    <select id="getOrgByName" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)

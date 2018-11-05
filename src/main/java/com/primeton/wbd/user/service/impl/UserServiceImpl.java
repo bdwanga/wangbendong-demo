@@ -43,9 +43,13 @@ public class UserServiceImpl implements IUserService
      */
     @Override
     @Transactional(readOnly = true)
-    public UserBean getUser(String userId)
+    public UserBean getUser(String userId) throws ServiceException
     {
-        return userDao.queryUserById(userId);
+        UserBean user = userDao.getUser(userId);
+        //校验是否为空
+        Utils.assertNotNull(user,ErrorEnum.ERROR_USER);
+
+        return user;
     }
 
     /**
@@ -79,7 +83,7 @@ public class UserServiceImpl implements IUserService
         Utils.assertNotNull(user.getPassword(), ErrorEnum.LACK_USER_PASSWORD);
 
         //如果查询出结果抛出用户已存在错误
-        Utils.assertNull(userDao.queryUserByName(user.getName()), ErrorEnum.ERROR_USER_INUSE);
+        Utils.assertNull(userDao.getUserByName(user.getName()), ErrorEnum.ERROR_USER_INUSE);
 
         userDao.insertUser(user);
     }
@@ -98,10 +102,10 @@ public class UserServiceImpl implements IUserService
         Utils.assertNotNull(user.getName(), ErrorEnum.LACK_USER_NAME);
 
         //校验用户ID是否存在
-        Utils.assertNotNull(userDao.queryUserById(user.getId()), ErrorEnum.ERROR_USER_ID);
+        Utils.assertNotNull(userDao.getUser(user.getId()), ErrorEnum.ERROR_USER_ID);
 
         //判读修改用户名是否被使用
-        UserBean userInfo = userDao.queryUserByName(user.getName());
+        UserBean userInfo = userDao.getUserByName(user.getName());
 
         if (null != userInfo && !StringUtils.equals(userInfo.getId(), user.getId()))
         {
@@ -112,7 +116,7 @@ public class UserServiceImpl implements IUserService
         userDao.updateUser(user);
 
         //返回修改数据，出去密码
-        UserBean modifyUser = userDao.queryUserById(user.getId());
+        UserBean modifyUser = userDao.getUser(user.getId());
         modifyUser.setPassword(null);
 
         return modifyUser;
@@ -128,7 +132,7 @@ public class UserServiceImpl implements IUserService
     public UserBean removeUser(String id) throws ServiceException
     {
         //先判断用户是否存在
-        UserBean user = userDao.queryUserById(id);
+        UserBean user = userDao.getUser(id);
 
         Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
 
@@ -151,7 +155,7 @@ public class UserServiceImpl implements IUserService
     @Transactional(readOnly = true)
     public UserBean signIn(String name, String password) throws ServiceException
     {
-        UserBean user = userDao.queryUserByName(name);
+        UserBean user = userDao.getUserByName(name);
 
         //如果未查询出结果抛出用户不存在错误
         Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
@@ -166,7 +170,9 @@ public class UserServiceImpl implements IUserService
      * 更新用户密码
      *
      * @param id          用户ID
+     * @param oldPassword 原密码
      * @param newPassword 新密码
+     *
      * @return
      */
     @Override
@@ -174,7 +180,7 @@ public class UserServiceImpl implements IUserService
     public void modifyPassword(String id, String oldPassword, String newPassword) throws ServiceException
     {
         //先判断用户是否存在
-        UserBean user = userDao.queryUserById(id);
+        UserBean user = userDao.getUser(id);
 
         Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
 

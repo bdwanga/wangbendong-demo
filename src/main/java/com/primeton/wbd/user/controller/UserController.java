@@ -41,7 +41,7 @@ public class UserController
     @RequestMapping(value = "/{userId}", method = RequestMethod.GET)
     @ApiOperation(value = "根据id查询用户信息", response = UserBean.class)
     @ResponseBody
-    public UserBean getUser(@PathVariable("userId") @ApiParam("用户ID") String userId)
+    public UserBean getUser(@PathVariable("userId") @ApiParam("用户ID") String userId) throws ServiceException
     {
         return userService.getUser(userId);
     }
@@ -54,6 +54,7 @@ public class UserController
      * @param pageIndex 起始页数
      * @param pageSize  每页大小
      * @return 分页数据
+     * @throws ServiceException
      */
     @RequestMapping(method = RequestMethod.GET)
     @ApiOperation(value = "查询用户信息列表", response = PageInfo.class)
@@ -146,7 +147,7 @@ public class UserController
      * @param newPassword 新密码
      * @throws ServiceException
      */
-    @RequestMapping(value = "/actions/modifyPassword", method = RequestMethod.POST)
+    @RequestMapping(value = "/actions/modifypassword", method = RequestMethod.POST)
     @ApiOperation(value = "修改密码")
     public void modifyPassword(@RequestParam("userId") @ApiParam(value = "用户ID", required = true) String userId,
                                @RequestParam("oldPassword") @ApiParam(value = "原密码", required = true) String oldPassword,

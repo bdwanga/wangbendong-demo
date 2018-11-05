@@ -22,13 +22,13 @@
 		(#{name}, #{password}, #{token}, #{nick},#{orgId})
 	</insert>
 	<!-- 通过id查询用户-->
-	<select id="queryUserById" parameterType="string" resultMap="USER_MAP">
+	<select id="getUser" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
 		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_ID=#{id}
 	</select>
 	<!-- 通过用户名查询用户-->
-	<select id="queryUserByName" parameterType="string" resultMap="USER_MAP">
+	<select id="getUserByName" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
 		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_NAME=#{name}

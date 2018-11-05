@@ -10,8 +10,8 @@ import com.primeton.wbd.user.model.UserBean;
  * 定义了用户的增删改查和用户登陆接口等
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 public interface IUserService
@@ -19,10 +19,10 @@ public interface IUserService
     /**
      * 根据id查询用户信息
      *
-     * @param userId  用户名
+     * @param userId 用户名
      * @return 用户数据
      */
-    public UserBean getUser(String userId);
+    public UserBean getUser(String userId) throws ServiceException;
 
     /**
      * 查询用户信息
@@ -72,10 +72,9 @@ public interface IUserService
     /**
      * 更新用户密码
      *
-     * @param id 用户ID
+     * @param id          用户ID
      * @param newPassword 新密码
-     *
      * @return
      */
-    public void modifyPassword(String id,String oldPassword,String newPassword) throws ServiceException;
+    public void modifyPassword(String id, String oldPassword, String newPassword) throws ServiceException;
 }

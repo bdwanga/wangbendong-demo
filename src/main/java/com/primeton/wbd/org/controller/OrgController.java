@@ -19,8 +19,8 @@ import javax.servlet.http.HttpServletResponse;
  * 提供组织机构的增删改查等接口
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 @Controller("orgController")
@@ -41,7 +41,7 @@ public class OrgController
     @RequestMapping(value = "/{orgId}", method = RequestMethod.GET)
     @ApiOperation(value = "根据id查询组织信息", response = OrgBean.class)
     @ResponseBody
-    public OrgBean getOrg(@PathVariable("orgId") @ApiParam("用户ID") String orgId)
+    public OrgBean getOrg(@PathVariable("orgId") @ApiParam("用户ID") String orgId) throws ServiceException
     {
         return orgService.getOrg(orgId);
     }
@@ -88,13 +88,13 @@ public class OrgController
     @ResponseBody
     public OrgBean modifyOrg(@RequestBody @ApiParam("需要更新的组织信息") OrgBean org) throws ServiceException
     {
-       return orgService.modifyOrg(org);
+        return orgService.modifyOrg(org);
     }
 
     /**
      * 删除组织单位
      *
-     * @param  orgId 组织id
+     * @param orgId 组织id
      * @throws ServiceException
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.DELETE)

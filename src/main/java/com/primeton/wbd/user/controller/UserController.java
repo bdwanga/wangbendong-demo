@@ -141,7 +141,7 @@ public class UserController
     /**
      * 修改密码
      *
-     * @param userId 用户ID
+     * @param userId      用户ID
      * @param oldPassword 原密码
      * @param newPassword 新密码
      * @throws ServiceException

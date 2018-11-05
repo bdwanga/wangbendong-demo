@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
  * 实现用户的增删改查和用户登陆功能
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 @Service("usersMangerService")
@@ -94,9 +94,8 @@ public class UserServiceImpl implements IUserService
     @Override
     public UserBean modifyUser(UserBean user) throws ServiceException
     {
-        //校验用户名和密码不能为空
+        //校验用户名不能为空
         Utils.assertNotNull(user.getName(), ErrorEnum.LACK_USER_NAME);
-        Utils.assertNotNull(user.getPassword(), ErrorEnum.LACK_USER_PASSWORD);
 
         //校验用户ID是否存在
         Utils.assertNotNull(userDao.queryUserById(user.getId()), ErrorEnum.ERROR_USER_ID);
@@ -112,7 +111,11 @@ public class UserServiceImpl implements IUserService
         //更新数据
         userDao.updateUser(user);
 
-        return userDao.queryUserById(user.getId());
+        //返回修改数据，出去密码
+        UserBean modifyUser = userDao.queryUserById(user.getId());
+        modifyUser.setPassword(null);
+
+        return modifyUser;
     }
 
     /**
@@ -128,6 +131,9 @@ public class UserServiceImpl implements IUserService
         UserBean user = userDao.queryUserById(id);
 
         Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
+
+        //清除密码
+        user.setPassword(null);
 
         userDao.deleteUser(id);
 

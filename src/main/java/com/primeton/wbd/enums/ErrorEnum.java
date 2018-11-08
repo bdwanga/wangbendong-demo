@@ -23,7 +23,8 @@ public enum ErrorEnum
     ERROR_USER_ID("00018","用户ID不存在"),
     ERROR_QUERY_RESULT("00019","查询结果集异常"),
     ERROR_ORG("00020","组织机构不存在"),
-    ERROR_ORG_NAME_INUSE("00021","组织ID已存在错误");
+    ERROR_ORG_NAME_INUSE("00021","组织ID已存在错误"),
+    ERROR__LACK_PARAM("00022","缺少必传参数错误，请检查");
 
     private String code;
 

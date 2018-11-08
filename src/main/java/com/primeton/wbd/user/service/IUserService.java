@@ -32,7 +32,7 @@ public interface IUserService
      * @param pageSize  每页大小
      * @return 分页数据
      */
-    public PageInfo<UserBean> queryUsers(String userName, int pageIndex, int pageSize);
+    public PageInfo<UserBean> queryUsers(String userName, String orgId, Integer pageIndex, Integer pageSize);
 
     /**
      * 创建用户信息

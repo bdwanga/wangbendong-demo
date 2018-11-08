@@ -25,7 +25,7 @@ public interface IUserDao
      * @param name 用户名，模糊查询
      * @return 用户信息列表
      */
-    public List<UserBean> queryUsers(@Param(value = "name") String name);
+    public List<UserBean> queryUsers(@Param(value = "name") String name, @Param(value = "orgId") String orgId);
 
     /**
      * 插入用户数据

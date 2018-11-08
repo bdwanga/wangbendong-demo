@@ -47,7 +47,7 @@ public class UserServiceImpl implements IUserService
     {
         UserBean user = userDao.getUser(userId);
         //校验是否为空
-        Utils.assertNotNull(user,ErrorEnum.ERROR_USER);
+        Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
 
         return user;
     }
@@ -62,11 +62,22 @@ public class UserServiceImpl implements IUserService
      */
     @Override
     @Transactional(readOnly = true)
-    public PageInfo<UserBean> queryUsers(String userName, int pageIndex, int pageSize)
+    public PageInfo<UserBean> queryUsers(String userName, String orgId, Integer pageIndex, Integer pageSize)
     {
+        //默认10页
+        if (pageSize == null)
+        {
+            pageSize = 10;
+        }
+        //为0或为负时查询所有
+        if (pageSize < 0)
+        {
+            pageSize = 0;
+        }
+
         PageHelper.startPage(pageIndex, pageSize);
 
-        return new PageInfo<>(userDao.queryUsers(userName));
+        return new PageInfo<>(userDao.queryUsers(userName, orgId));
     }
 
     /**
@@ -172,7 +183,6 @@ public class UserServiceImpl implements IUserService
      * @param id          用户ID
      * @param oldPassword 原密码
      * @param newPassword 新密码
-     *
      * @return
      */
     @Override

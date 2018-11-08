@@ -1,5 +1,6 @@
-package com.primeton.wbd.exception;
+package com.primeton.wbd.handler;
 
+import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.util.JsonResult;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

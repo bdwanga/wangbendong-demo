@@ -192,7 +192,7 @@ public class WangbendongDemoTestCase
     private void testQueryUsers(UserBean user)
     {
         //查询用户列表
-        PageInfo page = userController.queryUsers(user.getName(), 1, 1);
+        PageInfo page = userController.queryUsers(user.getName(),user.getOrgId(), 1, 1);
 
         Assert.assertNotNull("查询用户列表异常", page.getList());
         Assert.assertEquals("查询用户列表异常", page.getList().size(), 1);
@@ -213,7 +213,7 @@ public class WangbendongDemoTestCase
     private void testCreateUser(UserBean user) throws ServiceException
     {
         //创建用户
-        userController.createUser(user, null);
+        userController.createUser(user);
 
         Assert.assertNotNull("创建用户信息异常", user.getId());
     }

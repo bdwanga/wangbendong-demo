@@ -45,7 +45,7 @@ public class Swagger2Config implements WebMvcConfigurer
                 .apiInfo(apiInfo())
                 .select()
                 //为当前包路径
-                .apis(RequestHandlerSelectors.basePackage("com.wbd"))
+                .apis(RequestHandlerSelectors.basePackage("com.primeton.wbd"))
                 .paths(PathSelectors.any())
                 .build();
     }

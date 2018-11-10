@@ -24,10 +24,17 @@ public class ResponseHandler implements ResponseBodyAdvice
 
     @Override
     public Object beforeBodyWrite(Object returnValue, MethodParameter methodParameter,
-                                      MediaType mediaType, Class clas, ServerHttpRequest serverHttpRequest,
-                                      ServerHttpResponse serverHttpResponse)
+                                  MediaType mediaType, Class clas, ServerHttpRequest serverHttpRequest,
+                                  ServerHttpResponse serverHttpResponse)
     {
-        if(returnValue instanceof JsonResult)
+        String path = serverHttpRequest.getURI().getPath();
+
+        if(path.contains("/swagger-resources")||path.contains("/webjars")||path.contains("/swagger-ui.html")||path.contains("/v2/api-docs"))
+        {
+            return returnValue;
+        }
+
+        if (returnValue instanceof JsonResult)
         {
             return returnValue;
         }
@@ -43,14 +50,11 @@ public class ResponseHandler implements ResponseBodyAdvice
     @Override
     public boolean supports(MethodParameter methodParameter, Class clas)
     {
-//        //获取当前处理请求的controller的方法
-//        String methodName = methodParameter.getMethod().getName();
-//        // 不拦截/不需要处理返回值 的方法
-//        String method = "loginCheck"; //如登录
-//        //不拦截
-//        return !method.equals(methodName);
+        //获取当前处理的方法
+        String methodName = methodParameter.getMethod().getName();
 
-        return true;
+        // 不执行方法的不拦截
+        return !("error".equals(methodName));
     }
 
 }

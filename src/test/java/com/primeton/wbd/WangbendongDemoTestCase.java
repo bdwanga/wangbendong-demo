@@ -141,7 +141,7 @@ public class WangbendongDemoTestCase
     private void testModifyPassword(UserBean user) throws ServiceException
     {
         //登陆
-        userController.modifyPassword(user.getId(), user.getPassword(), "1234", null);
+        userController.modifyPassword(user.getId(), user.getPassword(), "1234");
 
         UserBean user1 = userController.getUser(user.getId());
 
@@ -192,7 +192,7 @@ public class WangbendongDemoTestCase
     private void testQueryUsers(UserBean user)
     {
         //查询用户列表
-        PageInfo page = userController.queryUsers(user.getName(),user.getOrgId(), 1, 1);
+        PageInfo page = userController.queryUsers(user.getName(), user.getOrgId(), 1, 1);
 
         Assert.assertNotNull("查询用户列表异常", page.getList());
         Assert.assertEquals("查询用户列表异常", page.getList().size(), 1);
@@ -276,7 +276,7 @@ public class WangbendongDemoTestCase
 
     private void testQueryOrgs(OrgBean org)
     {
-        PageInfo page = orgController.queryOrgs(org.getOrgName(), 1, 1);
+        PageInfo page = orgController.queryOrgs(org.getOrgName(), org.getParentId(), 1, 1);
 
         Assert.assertNotNull("查询组织机构列表异常", page.getList());
         Assert.assertEquals("查询组织机构列表异常", page.getList().size(), 1);
@@ -301,6 +301,14 @@ public class WangbendongDemoTestCase
 
         //先删防止插入用户名冲突
         OrgBean org1 = orgDao.getOrgByName(org.getOrgName());
+        if (org1 != null)
+        {
+            orgController.removeOrg(org1.getOrgId());
+            Assert.assertNull("测试删除组织机构异常", orgDao.getOrgByName(org.getOrgName()));
+        }
+
+        //先删防止插入用户名冲突
+        org1 = orgDao.getOrg(org.getOrgId());
         if (org1 != null)
         {
             orgController.removeOrg(org1.getOrgId());

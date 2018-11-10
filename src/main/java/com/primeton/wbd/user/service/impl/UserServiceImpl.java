@@ -45,11 +45,10 @@ public class UserServiceImpl implements IUserService
     @Transactional(readOnly = true)
     public UserBean getUser(String userId) throws ServiceException
     {
-        UserBean user = userDao.getUser(userId);
         //校验是否为空
-        Utils.assertNotNull(user, ErrorEnum.ERROR_USER);
+        Utils.assertNotNull(userId, ErrorEnum.LACK_ORG_ID);
 
-        return user;
+        return userDao.getUser(userId);
     }
 
     /**
@@ -142,6 +141,9 @@ public class UserServiceImpl implements IUserService
     @Override
     public UserBean removeUser(String id) throws ServiceException
     {
+        //校验是否为空
+        Utils.assertNotNull(id, ErrorEnum.LACK_ORG_ID);
+
         //先判断用户是否存在
         UserBean user = userDao.getUser(id);
 

@@ -38,12 +38,10 @@ public class OrgServiceImpl implements IOrgService
      */
     public OrgBean getOrg(String orgId) throws ServiceException
     {
-        OrgBean org = orgDao.getOrg(orgId);
-
         //校验是否为空
-        Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
 
-        return org;
+        return orgDao.getOrg(orgId);
     }
 
     /**
@@ -77,11 +75,25 @@ public class OrgServiceImpl implements IOrgService
      */
     @Override
     @Transactional(readOnly = true)
-    public PageInfo<OrgBean> queryOrgs(String orgName, int pageIndex, int pageSize)
+    public PageInfo<OrgBean> queryOrgs(String orgName, String parentId, Integer pageIndex, Integer pageSize)
     {
+        if (pageIndex == null)
+        {
+            pageIndex = 1;
+        }
+        if (pageSize == null)
+        {
+            pageSize = 10;
+        }
+
+        if (pageSize < 0)
+        {
+            pageSize = 0;
+        }
+
         PageHelper.startPage(pageIndex, pageSize);
 
-        return new PageInfo<OrgBean>(orgDao.queryOrgs(orgName));
+        return new PageInfo<OrgBean>(orgDao.queryOrgs(orgName,parentId));
     }
 
     /**
@@ -119,6 +131,9 @@ public class OrgServiceImpl implements IOrgService
     @Transactional
     public OrgBean removeOrg(String orgId) throws ServiceException
     {
+        //校验是否为空
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+
         OrgBean org = orgDao.getOrg(orgId);
 
         Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);

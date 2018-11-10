@@ -37,6 +37,10 @@
         <if test="orgName != null and orgName !=''">
             AND A.ORG_NAME LIKE "%"#{orgName}"%"
         </if>
+        <if test="parentId != null and parentId !=''">
+            AND A.PARENT_ID =#{parentId}
+        </if>
+
         ORDER BY A.ORG_ID
     </select>
 

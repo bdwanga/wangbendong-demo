@@ -12,7 +12,7 @@ public class ServiceException extends Exception
     /**
      * http状态码
      */
-    private HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+    private HttpStatus httpStatus = HttpStatus.OK;
 
     private String errCode;
 
@@ -74,7 +74,7 @@ public class ServiceException extends Exception
      */
     public ServiceException(ErrorEnum errorEnum)
     {
-        this(HttpStatus.INTERNAL_SERVER_ERROR, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
+        this(HttpStatus.OK, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
     }
 
     /**

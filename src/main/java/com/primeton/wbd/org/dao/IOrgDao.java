@@ -12,8 +12,8 @@ import java.util.List;
  * 定义了组织的增删改查等接口
  *
  * @author wangbendong
- * @date 2018.10.31
  * @version 1.0
+ * @date 2018.10.31
  * @since 1.8
  */
 @Mapper
@@ -43,7 +43,7 @@ public interface IOrgDao
     /**
      * 查询用户列表
      */
-    public List<OrgBean> queryOrgs(@Param(value = "orgName") String orgName);
+    public List<OrgBean> queryOrgs(@Param(value = "orgName") String orgName,@Param(value = "parentId") String parentId);
 
     /**
      * 更新组织单位

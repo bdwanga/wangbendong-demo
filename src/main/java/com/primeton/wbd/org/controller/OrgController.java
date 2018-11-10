@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.org.model.OrgBean;
 import com.primeton.wbd.org.service.IOrgService;
+import com.primeton.wbd.util.JsonResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -39,7 +40,7 @@ public class OrgController
      * @return 用户数据
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.GET)
-    @ApiOperation(value = "根据id查询组织信息", response = OrgBean.class)
+    @ApiOperation(value = "根据id查询组织信息", response = JsonResult.class)
     @ResponseBody
     public OrgBean getOrg(@PathVariable("orgId") @ApiParam("用户ID") String orgId) throws ServiceException
     {
@@ -55,13 +56,14 @@ public class OrgController
      * @return 分页数据
      */
     @RequestMapping(method = RequestMethod.GET)
-    @ApiOperation(value = "查询组织机构信息列表", response = PageInfo.class)
+    @ApiOperation(value = "查询组织机构信息列表", response = JsonResult.class)
     @ResponseBody
-    public PageInfo<OrgBean> queryOrgs(@RequestParam("orgName") @ApiParam("用户名") String orgName,
-                                       @RequestParam("pageIndex") @ApiParam("起始页数") int pageIndex,
-                                       @RequestParam("pageSize") @ApiParam("每页大小") int pageSize)
+    public PageInfo<OrgBean> queryOrgs(@RequestParam(value = "orgName", required = false) @ApiParam("组织名") String orgName,
+                                       @RequestParam(value = "parentId", required = false) @ApiParam("父节点id") String parentId,
+                                       @RequestParam(value = "pageIndex", required = false) @ApiParam("起始页数") Integer pageIndex,
+                                       @RequestParam(value = "pageSize", required = false) @ApiParam("每页大小") Integer pageSize)
     {
-        return orgService.queryOrgs(orgName, pageIndex, pageSize);
+        return orgService.queryOrgs(orgName, parentId, pageIndex, pageSize);
     }
 
     /**
@@ -71,7 +73,7 @@ public class OrgController
      * @throws ServiceException
      */
     @RequestMapping(method = RequestMethod.POST)
-    @ApiOperation(value = "创建组织单位")
+    @ApiOperation(value = "创建组织单位", response = JsonResult.class)
     public void createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
     {
         orgService.createOrg(org);
@@ -84,7 +86,7 @@ public class OrgController
      * @throws ServiceException
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.PUT)
-    @ApiOperation(value = "修改组织单位信息")
+    @ApiOperation(value = "修改组织单位信息", response = JsonResult.class)
     @ResponseBody
     public OrgBean modifyOrg(@RequestBody @ApiParam("需要更新的组织信息") OrgBean org) throws ServiceException
     {
@@ -98,7 +100,7 @@ public class OrgController
      * @throws ServiceException
      */
     @RequestMapping(value = "/{orgId}", method = RequestMethod.DELETE)
-    @ApiOperation(value = "删除组织")
+    @ApiOperation(value = "删除组织", response = JsonResult.class)
     @ResponseBody
     public OrgBean removeOrg(@PathVariable("orgId") @ApiParam("需要删除组织id") String orgId) throws ServiceException
     {

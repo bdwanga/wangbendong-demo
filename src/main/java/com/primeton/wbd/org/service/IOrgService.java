@@ -41,7 +41,7 @@ public interface IOrgService
      * @param pageSize  每页大小
      * @return 分页数据
      */
-    public PageInfo<OrgBean> queryOrgs(String orgName, int pageIndex, int pageSize);
+    public PageInfo<OrgBean> queryOrgs(String orgName, String parentId, Integer pageIndex, Integer pageSize);
 
     /**
      * 更新组织单位

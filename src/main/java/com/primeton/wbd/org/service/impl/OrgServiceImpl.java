@@ -13,6 +13,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * 组织管理service实现类
  * <p>
@@ -45,6 +50,90 @@ public class OrgServiceImpl implements IOrgService
     }
 
     /**
+     * 根据组织机构id，查询组织机构信息，包括下级节点
+     *
+     * @param orgId
+     * @return 组织机构信息
+     */
+    public OrgBean getOrgDetail(String orgId) throws ServiceException
+    {
+        //校验是否为空
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+
+        //查询当前节点
+        OrgBean org = orgDao.getOrg(orgId);
+
+        if (org == null)
+        {
+            return org;
+        }
+
+        //查询所有子节点
+        List<OrgBean> subs = orgDao.queryOrgSubs(orgId);
+
+        //处理子节点
+        org.setChildren(processOrgSubs(subs, org.getOrgId()));
+
+        return org;
+    }
+
+    /**
+     * 根据组织机构id,查询下级节点
+     *
+     * @param orgId
+     * @return 组织机构信息
+     */
+    public List<OrgBean> getOrgSubs(String orgId) throws ServiceException
+    {
+        //校验是否为空
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+
+        //查询所有子节点
+        List<OrgBean> subs = orgDao.queryOrgSubs(orgId);
+
+        //处理子节点
+        return processOrgSubs(subs, orgId);
+    }
+
+    /**
+     * 处理所有子节点,只返回当前父节点下的子节点列表
+     *
+     * @param allSubs
+     * @param rootParentId 根父节点
+     */
+    private List<OrgBean> processOrgSubs(List<OrgBean> allSubs, String rootParentId)
+    {
+        Map<String, List<OrgBean>> subMap = new HashMap<String, List<OrgBean>>();
+        List<OrgBean> subs = new ArrayList<OrgBean>();
+
+        //将所有的子节点分组放入map
+        for (OrgBean subOrg : allSubs)
+        {
+            List<OrgBean> subList = (List<OrgBean>) subMap.get(subOrg.getParentId());
+            if (subList == null)
+            {
+                subList = new ArrayList<OrgBean>();
+                subMap.put(subOrg.getParentId(), subList);
+            }
+
+            subList.add(subOrg);
+        }
+
+        //设置每个组织的子机构
+        for (OrgBean subOrg : allSubs)
+        {
+            subOrg.setChildren(subMap.get(subOrg.getOrgId()));
+
+            if (rootParentId.equals(subOrg.getParentId()))
+            {
+                subs.add(subOrg);
+            }
+        }
+
+        return subs;
+    }
+
+    /**
      * 保存组织单位
      *
      * @param org
@@ -55,11 +144,11 @@ public class OrgServiceImpl implements IOrgService
     public void createOrg(OrgBean org) throws ServiceException
     {
         //校验组织ID和组织名称不能为空
-        Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
+        //Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
 
         //校验组织id和名称不能重复
-        Utils.assertNull(orgDao.getOrg(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
+        //Utils.assertNull(orgDao.getOrg(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
         Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
 
         orgDao.insertOrg(org);
@@ -93,7 +182,7 @@ public class OrgServiceImpl implements IOrgService
 
         PageHelper.startPage(pageIndex, pageSize);
 
-        return new PageInfo<OrgBean>(orgDao.queryOrgs(orgName,parentId));
+        return new PageInfo<OrgBean>(orgDao.queryOrgs(orgName, parentId));
     }
 
     /**
@@ -137,6 +226,9 @@ public class OrgServiceImpl implements IOrgService
         OrgBean org = orgDao.getOrg(orgId);
 
         Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
+
+        //校验不能含有子节点
+        Utils.assertNull(orgDao.queryOrgSubs(orgId), ErrorEnum.ERROR_ORG_SUB_DEL);
 
         orgDao.deleteOrg(orgId);
 

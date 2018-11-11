@@ -289,7 +289,7 @@ public class WangbendongDemoTestCase
     private void testCreateOrg(OrgBean org) throws ServiceException
     {
         //创建组织机构
-        orgController.createOrg(org, null);
+        orgController.createOrg(org);
     }
 
     private OrgBean buildOrgBean() throws ServiceException

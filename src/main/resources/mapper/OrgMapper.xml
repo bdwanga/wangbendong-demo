@@ -8,16 +8,27 @@
 
     <!-- 保存组织机构 -->
     <insert id="insertOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
-		INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID)
-		VALUES
-		(#{orgId}, #{orgName}, #{parentId})
-	</insert>
+        <selectKey  keyProperty="orgId" resultType="string" order="BEFORE">
+            SELECT REPLACE(UUID(),'-','')
+        </selectKey >
+        INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID)
+        VALUES
+        (#{orgId}, #{orgName}, #{parentId})
+    </insert>
     <!-- 通过id查询用户-->
     <select id="getOrg" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
         WHERE A.ORG_ID=#{orgId}
+    </select>
+
+    <!-- 通过id查询所有子组织-->
+    <select id="queryOrgSubs" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
+       SELECT
+        <include refid="ORG_COLUMN_LIST"/>
+        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        WHERE FIND_IN_SET(A.PARENT_ID, queryOrgSubId(#{orgId}))
     </select>
 
     <!-- 通过组织名称查询用户-->

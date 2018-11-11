@@ -4,6 +4,7 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 @ApiModel(value = "OrgBean", description = "组织机构信息")
 public class OrgBean implements Serializable
@@ -29,8 +30,15 @@ public class OrgBean implements Serializable
     private String parentId;
 
     /**
-     * 上级组织id
+     * 子节点
      */
+    @ApiModelProperty(value="子节点")
+    private List<OrgBean> children;
+
+    /**
+     * 上级组织名称
+     */
+    @ApiModelProperty(value="上级组织名称")
     private String parentName;
 
     public String getOrgId()
@@ -71,5 +79,15 @@ public class OrgBean implements Serializable
     public void setParentName(String parentName)
     {
         this.parentName = parentName;
+    }
+
+    public List<OrgBean> getChildren()
+    {
+        return children;
+    }
+
+    public void setChildren(List<OrgBean> children)
+    {
+        this.children = children;
     }
 }

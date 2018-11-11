@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * 组织机构管理Controller
@@ -48,6 +48,34 @@ public class OrgController
     }
 
     /**
+     * 根据id查询组织信息,包括下级各节点
+     *
+     * @param orgId 组织id
+     * @return 组织数据
+     */
+    @RequestMapping(value = "/{orgId}/detail", method = RequestMethod.GET)
+    @ApiOperation(value = "根据id查询组织信息,包括下级各节点", response = JsonResult.class)
+    @ResponseBody
+    public OrgBean getOrgDetail(@PathVariable("orgId") @ApiParam("用户ID") String orgId) throws ServiceException
+    {
+        return orgService.getOrgDetail(orgId);
+    }
+
+    /**
+     * 根据组织机构id,查询下级节点
+     *
+     * @param orgId 组织id
+     * @return 下级组织列表
+     */
+    @RequestMapping(value = "/{orgId}/subs", method = RequestMethod.GET)
+    @ApiOperation(value = "根据组织机构id,查询下级节点", response = JsonResult.class)
+    @ResponseBody
+    public List<OrgBean> getOrgSubs(@PathVariable("orgId") @ApiParam("用户ID") String orgId) throws ServiceException
+    {
+        return orgService.getOrgSubs(orgId);
+    }
+
+    /**
      * 查询组织机构信息列表
      *
      * @param orgName   组织机构名
@@ -74,7 +102,8 @@ public class OrgController
      */
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "创建组织单位", response = JsonResult.class)
-    public void createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org, HttpServletResponse response) throws ServiceException
+    @ResponseBody
+    public void createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org) throws ServiceException
     {
         orgService.createOrg(org);
     }

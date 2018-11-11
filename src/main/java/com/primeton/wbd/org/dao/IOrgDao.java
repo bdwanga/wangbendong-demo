@@ -34,6 +34,13 @@ public interface IOrgDao
     public OrgBean getOrg(@Param(value = "orgId") String orgId);
 
     /**
+     * 根据ID查询组织所有子单位
+     *
+     * @param orgId
+     */
+    public List<OrgBean> queryOrgSubs(@Param(value = "orgId") String orgId);
+
+    /**
      * 根据组织名称查询组织单位
      *
      * @param orgName

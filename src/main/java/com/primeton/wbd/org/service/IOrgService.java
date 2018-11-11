@@ -4,6 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.org.model.OrgBean;
 
+import java.util.List;
+
 /**
  * 组织管理service接口
  * <p>
@@ -24,6 +26,23 @@ public interface IOrgService
      * @return 组织机构信息
      */
     public OrgBean getOrg(String orgId) throws ServiceException;
+
+
+    /**
+     * 根据组织机构id，查询组织机构信息，包括下级节点
+     *
+     * @param orgId
+     * @return 组织机构信息
+     */
+    public OrgBean getOrgDetail(String orgId) throws ServiceException;
+
+    /**
+     * 根据组织机构id,查询下级节点
+     *
+     * @param orgId
+     * @return 组织机构信息
+     */
+    public List<OrgBean> getOrgSubs(String orgId) throws ServiceException;
 
     /**
      * 保存组织单位

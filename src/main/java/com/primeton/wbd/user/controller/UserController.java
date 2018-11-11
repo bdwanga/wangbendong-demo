@@ -135,6 +135,7 @@ public class UserController
      */
     @RequestMapping(value = "/actions/sign", method = RequestMethod.DELETE)
     @ApiOperation(value = "用户退出", response = JsonResult.class)
+    @ResponseBody
     public void signOut(HttpSession session)
     {
         //清除session中的所用信息
@@ -151,6 +152,7 @@ public class UserController
      */
     @RequestMapping(value = "/actions/modifypassword", method = RequestMethod.POST)
     @ApiOperation(value = "修改密码", response = JsonResult.class)
+    @ResponseBody
     public void modifyPassword(@RequestParam("userId") @ApiParam(value = "用户ID", required = true) String userId,
                                @RequestParam("oldPassword") @ApiParam(value = "原密码", required = true) String oldPassword,
                                @RequestParam("newPassword") @ApiParam(value = "新密码", required = true) String newPassword) throws ServiceException

@@ -7,6 +7,7 @@ import org.apache.commons.lang.StringUtils;
 import java.io.Closeable;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Collection;
 
 public class Utils
 {
@@ -85,6 +86,11 @@ public class Utils
         }
 
         if (data instanceof String && ((String) data).length() == 0)
+        {
+            return;
+        }
+
+        if (data instanceof Collection && ((Collection) data).size() == 0)
         {
             return;
         }

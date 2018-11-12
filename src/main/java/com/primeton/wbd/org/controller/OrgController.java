@@ -103,9 +103,9 @@ public class OrgController
     @RequestMapping(method = RequestMethod.POST)
     @ApiOperation(value = "创建组织单位", response = JsonResult.class)
     @ResponseBody
-    public void createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org) throws ServiceException
+    public OrgBean createOrg(@RequestBody @ApiParam("需要保存的组织信息") OrgBean org) throws ServiceException
     {
-        orgService.createOrg(org);
+        return orgService.createOrg(org);
     }
 
     /**

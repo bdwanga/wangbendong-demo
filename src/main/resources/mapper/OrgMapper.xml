@@ -28,7 +28,7 @@
        SELECT
         <include refid="ORG_COLUMN_LIST"/>
         FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
-        WHERE FIND_IN_SET(A.PARENT_ID, queryOrgSubId(#{orgId}))
+        WHERE FIND_IN_SET(A.PARENT_ID, queryOrgSubsId(#{orgId}))
     </select>
 
     <!-- 通过组织名称查询用户-->
@@ -52,7 +52,7 @@
             AND A.PARENT_ID =#{parentId}
         </if>
 
-        ORDER BY A.ORG_ID
+        ORDER BY A.ORG_NAME
     </select>
 
     <!-- 更新用户信息-->

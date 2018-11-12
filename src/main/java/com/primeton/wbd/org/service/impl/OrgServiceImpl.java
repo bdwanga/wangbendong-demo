@@ -141,7 +141,7 @@ public class OrgServiceImpl implements IOrgService
      */
     @Override
     @Transactional
-    public void createOrg(OrgBean org) throws ServiceException
+    public OrgBean createOrg(OrgBean org) throws ServiceException
     {
         //校验组织ID和组织名称不能为空
         //Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
@@ -152,6 +152,8 @@ public class OrgServiceImpl implements IOrgService
         Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
 
         orgDao.insertOrg(org);
+
+        return org;
     }
 
     /**

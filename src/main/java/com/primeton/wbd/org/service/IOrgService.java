@@ -50,7 +50,7 @@ public interface IOrgService
      * @param org
      * @throws ServiceException
      */
-    public void createOrg(OrgBean org) throws ServiceException;
+    public OrgBean createOrg(OrgBean org) throws ServiceException;
 
     /**
      * 获得组织机构信息列表

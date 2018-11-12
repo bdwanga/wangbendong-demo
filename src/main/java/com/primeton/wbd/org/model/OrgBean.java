@@ -41,6 +41,12 @@ public class OrgBean implements Serializable
     @ApiModelProperty(value="上级组织名称")
     private String parentName;
 
+    /**
+     * 上级组织名称
+     */
+    @ApiModelProperty(value="层级关系")
+    private String orgLevels;
+
     public String getOrgId()
     {
         return orgId;
@@ -89,5 +95,15 @@ public class OrgBean implements Serializable
     public void setChildren(List<OrgBean> children)
     {
         this.children = children;
+    }
+
+    public String getOrgLevels()
+    {
+        return orgLevels;
+    }
+
+    public void setOrgLevels(String orgLevels)
+    {
+        this.orgLevels = orgLevels;
     }
 }

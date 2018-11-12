@@ -3,7 +3,7 @@
 <mapper namespace="com.primeton.wbd.org.dao.IOrgDao">
 
     <sql id="ORG_COLUMN_LIST">
-        A.ORG_ID ORGID,A.ORG_NAME ORGNAME,A.PARENT_ID PARENTID,B.ORG_NAME PARENTNAME
+        A.ORG_ID ORGID,A.ORG_NAME ORGNAME,A.PARENT_ID PARENTID,B.ORG_NAME PARENTNAME,A.ORG_LEVELS ORGLEVELS
     </sql>
 
     <!-- 保存组织机构 -->
@@ -11,9 +11,9 @@
         <selectKey  keyProperty="orgId" resultType="string" order="BEFORE">
             SELECT REPLACE(UUID(),'-','')
         </selectKey >
-        INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID)
+        INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID,ORG_LEVELS)
         VALUES
-        (#{orgId}, #{orgName}, #{parentId})
+        (#{orgId}, #{orgName}, #{parentId},#{orgLevels})
     </insert>
     <!-- 通过id查询用户-->
     <select id="getOrg" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
@@ -59,7 +59,8 @@
     <update id="updateOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
 	UPDATE ORGANIZATION O
         SET  O.ORG_NAME=#{orgName},
-             O.PARENT_ID=#{parentId}
+             O.PARENT_ID=#{parentId},
+             O.ORG_LEVELS=#{orgLevels},
 	WHERE
         O.ORG_ID=#{orgId}
 	</update>

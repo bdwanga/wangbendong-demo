@@ -192,7 +192,7 @@ public class WangbendongDemoTestCase
     private void testQueryUsers(UserBean user)
     {
         //查询用户列表
-        PageInfo page = userController.queryUsers(user.getName(), user.getOrgId(), 1, 1);
+        PageInfo page = userController.queryUsers(user.getName(), user.getOrgId(), false, 1, 1);
 
         Assert.assertNotNull("查询用户列表异常", page.getList());
         Assert.assertEquals("查询用户列表异常", page.getList().size(), 1);

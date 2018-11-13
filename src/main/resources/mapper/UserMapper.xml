@@ -43,8 +43,11 @@
         <if test="name != null and name !=''">
             AND A.USER_NAME LIKE "%"#{name}"%"
         </if>
-		<if test="orgId != null and orgId !=''">
-			AND A.USER_ORG =#{orgId}
+		<if test="orgId != null and orgId !='' and !isHasSub">
+			AND A.USER_ORG = #{orgId}
+		</if>
+		<if test="orgId != null and orgId !='' and isHasSub">
+			AND FIND_IN_SET(A.USER_ORG ,queryOrgSubsId(#{orgId}))
 		</if>
         ORDER BY A.USER_ID
     </select>

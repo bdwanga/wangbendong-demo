@@ -7,13 +7,10 @@
     </sql>
 
     <!-- 保存组织机构 -->
-    <insert id="insertOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
-        <selectKey  keyProperty="orgId" resultType="string" order="BEFORE">
-            SELECT REPLACE(UUID(),'-','')
-        </selectKey >
-        INSERT INTO ORGANIZATION (ORG_ID,ORG_NAME,PARENT_ID,ORG_LEVELS)
+    <insert id="insertOrg" parameterType="com.primeton.wbd.org.model.OrgBean" useGeneratedKeys="true" keyProperty="orgId">
+        INSERT INTO ORGANIZATION (ORG_NAME,PARENT_ID,ORG_LEVELS)
         VALUES
-        (#{orgId}, #{orgName}, #{parentId},#{orgLevels})
+        (#{orgName}, #{parentId},#{orgLevels})
     </insert>
     <!-- 通过id查询用户-->
     <select id="getOrg" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
@@ -60,7 +57,7 @@
 	UPDATE ORGANIZATION O
         SET  O.ORG_NAME=#{orgName},
              O.PARENT_ID=#{parentId},
-             O.ORG_LEVELS=#{orgLevels},
+             O.ORG_LEVELS=#{orgLevels}
 	WHERE
         O.ORG_ID=#{orgId}
 	</update>

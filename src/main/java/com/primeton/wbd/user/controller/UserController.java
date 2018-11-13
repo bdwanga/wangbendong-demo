@@ -62,10 +62,11 @@ public class UserController
     @ResponseBody
     public PageInfo<UserBean> queryUsers(@RequestParam(value = "userName", required = false) @ApiParam("用户名,为空无该条件,模糊查询") String userName,
                                          @RequestParam(value = "orgId", required = false) @ApiParam("单位ID,为空无该条件，精确查询") String orgId,
+                                         @RequestParam(value = "isHasSub", required = false) @ApiParam("根据单位单询时，是否也包含下级的人员") Boolean isHasSub,
                                          @RequestParam("pageIndex") @ApiParam(value = "起始页数", required = true) Integer pageIndex,
                                          @RequestParam(value = "pageSize", required = false) @ApiParam("每页大小,为零或负查询所有，默认10") Integer pageSize)
     {
-        return userService.queryUsers(userName, orgId, pageIndex, pageSize);
+        return userService.queryUsers(userName, orgId, isHasSub, pageIndex, pageSize);
     }
 
     /**

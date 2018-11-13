@@ -25,14 +25,15 @@ public interface IUserService
     public UserBean getUser(String userId) throws ServiceException;
 
     /**
-     * 查询用户信息
+     * 查询用户信息列表
      *
      * @param userName  用户名
      * @param pageIndex 起始页数
      * @param pageSize  每页大小
+     * @param isHasSub  根据单位单询时，是否也包含下级的人员
      * @return 分页数据
      */
-    public PageInfo<UserBean> queryUsers(String userName, String orgId, Integer pageIndex, Integer pageSize);
+    public PageInfo<UserBean> queryUsers(String userName, String orgId, Boolean isHasSub, Integer pageIndex, Integer pageSize);
 
     /**
      * 创建用户信息

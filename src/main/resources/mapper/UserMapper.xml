@@ -17,20 +17,20 @@
 
 	<!-- 保存用户信息，自动生成主键-->
 	<insert id="insertUser" parameterType="com.primeton.wbd.user.model.UserBean" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG)
+		INSERT INTO WANGBD_USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG)
 		VALUES
 		(#{name}, #{password}, #{token}, #{nick},#{orgId})
 	</insert>
 	<!-- 通过id查询用户-->
 	<select id="getUser" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+		 FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_ID=#{id}
 	</select>
 	<!-- 通过用户名查询用户-->
 	<select id="getUserByName" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+		FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_NAME=#{name}
 	</select>
 
@@ -38,7 +38,7 @@
     <select id="queryUsers" parameterType="string" resultMap="USER_MAP">
         SELECT
         <include refid="USER_COLUMN_LIST"/>
-        FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+        FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
         WHERE 1=1
         <if test="name != null and name !=''">
             AND A.USER_NAME LIKE "%"#{name}"%"
@@ -47,14 +47,14 @@
 			AND A.USER_ORG = #{orgId}
 		</if>
 		<if test="orgId != null and orgId !='' and isHasSub">
-			AND FIND_IN_SET(A.USER_ORG ,queryOrgSubsId(#{orgId}))
+			AND FIND_IN_SET(A.USER_ORG ,wbd_queryOrgSubsId(#{orgId}))
 		</if>
         ORDER BY A.USER_ID
     </select>
 
 	<!-- 更新用户信息-->
 	<update id="updateUser" parameterType="com.primeton.wbd.user.model.UserBean">
-	UPDATE USER A
+	UPDATE WANGBD_USER A
         SET
 				A.USER_NAME=#{name},
 				A.USER_TOKEN=#{token},
@@ -66,7 +66,7 @@
 
 	<!-- 更新用户信息-->
 	<update id="updatePassword" parameterType="string">
-	UPDATE USER A
+	UPDATE WANGBD_USER A
         SET
 				A.USER_PASSWORD=#{newPassword}
 	WHERE
@@ -75,7 +75,7 @@
 
     <!-- 更新用户信息-->
     <delete  id="deleteUser" parameterType="string">
-	 DELETE FROM USER
+	 DELETE FROM WANGBD_USER
        WHERE USER_ID =#{id}
 	</delete>
 

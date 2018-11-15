@@ -8,7 +8,7 @@
 
     <!-- 保存组织机构 -->
     <insert id="insertOrg" parameterType="com.primeton.wbd.org.model.OrgBean" useGeneratedKeys="true" keyProperty="orgId">
-        INSERT INTO ORGANIZATION (ORG_NAME,PARENT_ID,ORG_LEVELS)
+        INSERT INTO WANGBD_ORGANIZATION (ORG_NAME,PARENT_ID,ORG_LEVELS)
         VALUES
         (#{orgName}, #{parentId},#{orgLevels})
     </insert>
@@ -16,7 +16,7 @@
     <select id="getOrg" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        FROM WANGBD_ORGANIZATION A LEFT JOIN WANGBD_ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
         WHERE A.ORG_ID=#{orgId}
     </select>
 
@@ -24,15 +24,15 @@
     <select id="queryOrgSubs" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
        SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
-        WHERE FIND_IN_SET(A.PARENT_ID, queryOrgSubsId(#{orgId}))
+        FROM WANGBD_ORGANIZATION A LEFT JOIN WANGBD_ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        WHERE FIND_IN_SET(A.PARENT_ID, wbd_queryOrgSubsId(#{orgId}))
     </select>
 
     <!-- 通过组织名称查询用户-->
     <select id="getOrgByName" parameterType="string" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        FROM WANGBD_ORGANIZATION A LEFT JOIN WANGBD_ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
         WHERE A.ORG_NAME=#{orgName}
     </select>
 
@@ -40,7 +40,7 @@
     <select id="queryOrgs" resultType="com.primeton.wbd.org.model.OrgBean">
         SELECT
         <include refid="ORG_COLUMN_LIST"/>
-        FROM ORGANIZATION A LEFT JOIN ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
+        FROM WANGBD_ORGANIZATION A LEFT JOIN WANGBD_ORGANIZATION B ON (A.PARENT_ID = B.ORG_ID)
         WHERE 1=1
         <if test="orgName != null and orgName !=''">
             AND A.ORG_NAME LIKE "%"#{orgName}"%"
@@ -54,7 +54,7 @@
 
     <!-- 更新用户信息-->
     <update id="updateOrg" parameterType="com.primeton.wbd.org.model.OrgBean">
-	UPDATE ORGANIZATION O
+	UPDATE WANGBD_ORGANIZATION O
         SET  O.ORG_NAME=#{orgName},
              O.PARENT_ID=#{parentId},
              O.ORG_LEVELS=#{orgLevels}
@@ -64,7 +64,7 @@
 
     <!-- 更新用户信息-->
     <delete id="deleteOrg" parameterType="string">
-	 DELETE FROM ORGANIZATION
+	 DELETE FROM WANGBD_ORGANIZATION
        WHERE ORG_ID=#{orgId}
 	</delete>
 

@@ -144,6 +144,20 @@ public class UserController
     }
 
     /**
+     * 获取当前登录用户数据
+     *
+     * @param session 用户推出请求
+     */
+    @RequestMapping(value = "/actions/sign", method = RequestMethod.GET)
+    @ApiOperation(value = "获取当前登录用户数据", response = JsonResult.class)
+    @ResponseBody
+    public UserBean getSignUser(HttpSession session)
+    {
+        //清除session中的所用信息
+        return (UserBean)session.getAttribute("curUser");
+    }
+
+    /**
      * 修改密码
      *
      * @param userId      用户ID

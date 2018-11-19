@@ -106,6 +106,12 @@ public class OrgServiceImpl implements IOrgService
         Map<String, List<OrgBean>> subMap = new HashMap<String, List<OrgBean>>();
         List<OrgBean> subs = new ArrayList<OrgBean>();
 
+        //列表判空
+        if(allSubs == null || allSubs.isEmpty())
+        {
+            return subs;
+        }
+
         //将所有的子节点分组放入map
         for (OrgBean subOrg : allSubs)
         {

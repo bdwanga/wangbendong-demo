@@ -144,11 +144,9 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean createOrg(OrgBean org) throws ServiceException
     {
         //校验组织ID和组织名称不能为空
-        //Utils.assertNotNull(org.getOrgId(), ErrorEnum.LACK_ORG_ID);
         Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
 
         //校验组织id和名称不能重复
-        //Utils.assertNull(orgDao.getOrg(org.getOrgId()), ErrorEnum.ERROR_ORG_ID_INUSE);
         Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
 
         orgDao.insertOrg(org);

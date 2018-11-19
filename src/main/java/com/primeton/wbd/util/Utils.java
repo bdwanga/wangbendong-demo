@@ -3,6 +3,8 @@ package com.primeton.wbd.util;
 import com.primeton.wbd.enums.ErrorEnum;
 import com.primeton.wbd.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Closeable;
 import java.io.PrintWriter;
@@ -11,6 +13,14 @@ import java.util.Collection;
 
 public class Utils
 {
+    private static Logger log = LoggerFactory.getLogger(Utils.class);
+
+    //私有构造器防止被外部改造
+    private Utils()
+    {
+
+    }
+
     /**
      * 关闭流
      *
@@ -27,7 +37,7 @@ public class Utils
         }
         catch (Exception e)
         {
-
+            log.error("Utils.closeStream关闭流异常", e);
         }
     }
 

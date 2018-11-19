@@ -27,10 +27,10 @@ public class JsonResult<T> implements Serializable
     private String error;
 
     @ApiModelProperty(value="相关参数信息")
-    private Object[] params;
+    private Object[] params;//NOSONAR
 
     @ApiModelProperty(value="返回数据")
-    private T data;
+    private T data;//NOSONAR
 
     public JsonResult()
     {

@@ -18,12 +18,12 @@ public class ServiceException extends Exception
 
     private String message;
 
-    private Object[] params;
+    private Object[] params;//NOSONAR
 
     /**
      * 额外信息
      */
-    private Object additional;
+    private Object additional;//NOSONAR
 
     /**
      * 无参构造方法.
@@ -191,6 +191,7 @@ public class ServiceException extends Exception
         return params;
     }
 
+    @Override
     public String getMessage()
     {
         StringBuilder messageBuffer = new StringBuilder();

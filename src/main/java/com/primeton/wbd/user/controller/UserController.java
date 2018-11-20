@@ -117,16 +117,21 @@ public class UserController
      * @param userName 用户名
      * @param password 密码
      * @throws ServiceException
+     * @return 用户数据
      */
     @RequestMapping(value = "/actions/sign", method = RequestMethod.POST)
     @ApiOperation(value = "用户登录", response = JsonResult.class)
     @ResponseBody
-    public void signIn(@RequestParam("userName") @ApiParam(value = "用户名", required = true) String userName,
-                       @RequestParam("password") @ApiParam(value = "密码", required = true) String password,
-                       HttpSession session) throws ServiceException
+    public UserBean signIn(@RequestParam("userName") @ApiParam(value = "用户名", required = true) String userName,
+                           @RequestParam("password") @ApiParam(value = "密码", required = true) String password,
+                           HttpSession session) throws ServiceException
     {
+        UserBean loginUser = userService.signIn(userName, password);
+
         //登录成功后将当前用户放入session
-        session.setAttribute("curUser", userService.signIn(userName, password));
+        session.setAttribute("curUser", loginUser);
+
+        return loginUser;
     }
 
     /**
@@ -154,7 +159,7 @@ public class UserController
     public UserBean getSignUser(HttpSession session)
     {
         //清除session中的所用信息
-        return (UserBean)session.getAttribute("curUser");
+        return (UserBean) session.getAttribute("curUser");
     }
 
     /**

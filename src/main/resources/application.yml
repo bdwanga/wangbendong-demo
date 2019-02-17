@@ -1,0 +1,41 @@
+ spring:
+  application:
+    name: wbd-demo
+  datasoThreadLocal: urce.type=com.alibaba.druid.pool.DruidDataSource
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    password: ENC(U+x8ePI/K7QTKbivoYs78A==)
+    url: jdbc:mysql://localhost:3306/mysqlDB?characterEncoding=UTF-8
+    username: root
+
+ server:
+  port: 12251
+  servlet:
+    session:
+      timeout: 20m
+
+ eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+  instance:
+    prefer-ip-address: true
+    status-page-url: http://localhost:${server.port}/swagger-ui.html # ${server.port}为该服务的端口号
+    instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+ #spring.mvc.view.prefix=/WEB-INF/views
+#spring.mvc.view.suffix=.jsp
+#在application.properties文件中引入日志配置文件
+ logging:
+  config: classpath:logback-boot.xml
+
+
+#pagehelper分页插件配置
+ pagehelper:
+  helperDialect: mysql
+  params:
+    count: countSql
+  reasonable: true
+  supportMethodsArguments: true
+
+ mybatis:
+  mapperLocations: classpath:mapper/*.xml

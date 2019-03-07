@@ -44,7 +44,7 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean getOrg(String orgId) throws ServiceException
     {
         //校验是否为空
-        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID.exception());
 
         return orgDao.getOrg(orgId);
     }
@@ -58,7 +58,7 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean getOrgDetail(String orgId) throws ServiceException
     {
         //校验是否为空
-        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID.exception());
 
         //查询当前节点
         OrgBean org = orgDao.getOrg(orgId);
@@ -86,7 +86,7 @@ public class OrgServiceImpl implements IOrgService
     public List<OrgBean> getOrgSubs(String orgId) throws ServiceException
     {
         //校验是否为空
-        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID.exception());
 
         //查询所有子节点
         List<OrgBean> subs = orgDao.queryOrgSubs(orgId);
@@ -150,10 +150,10 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean createOrg(OrgBean org) throws ServiceException
     {
         //校验组织ID和组织名称不能为空
-        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
+        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME.exception());
 
         //校验组织id和名称不能重复
-        Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE);
+        Utils.assertNull(orgDao.getOrgByName(org.getOrgName()), ErrorEnum.ERROR_ORG_NAME_INUSE.exception());
 
         orgDao.insertOrg(org);
 
@@ -202,7 +202,7 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean modifyOrg(OrgBean org) throws ServiceException
     {
         //组织名称不能为空
-        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME);
+        Utils.assertNotNull(org.getOrgName(), ErrorEnum.LACK_ORG_NAME.exception());
 
         //存校验填写的组织机构名称不能重复
         OrgBean orgInfo = orgDao.getOrgByName(org.getOrgName());
@@ -227,14 +227,14 @@ public class OrgServiceImpl implements IOrgService
     public OrgBean removeOrg(String orgId) throws ServiceException
     {
         //校验是否为空
-        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID);
+        Utils.assertNotNull(orgId, ErrorEnum.LACK_ORG_ID.exception());
 
         OrgBean org = orgDao.getOrg(orgId);
 
-        Utils.assertNotNull(org, ErrorEnum.ERROR_ORG);
+        Utils.assertNotNull(org, ErrorEnum.ERROR_ORG.exception());
 
         //校验不能含有子节点
-        Utils.assertNull(orgDao.queryOrgSubs(orgId), ErrorEnum.ERROR_ORG_SUB_DEL);
+        Utils.assertNull(orgDao.queryOrgSubs(orgId), ErrorEnum.ERROR_ORG_SUB_DEL.exception());
 
         orgDao.deleteOrg(orgId);
 

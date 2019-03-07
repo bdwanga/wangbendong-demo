@@ -1,6 +1,5 @@
 package com.primeton.wbd.util;
 
-import com.primeton.wbd.enums.ErrorEnum;
 import com.primeton.wbd.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -67,18 +66,18 @@ public class Utils
      * 判读对象不能为空
      *
      * @param data
-     * @param errorEnum
+     * @param ex
      */
-    public static void assertNotNull(Object data, ErrorEnum errorEnum) throws ServiceException
+    public static void assertNotNull(Object data, ServiceException ex) throws ServiceException
     {
         if (null == data)
         {
-            throw new ServiceException(errorEnum);
+            throw ex;
         }
 
         if (data instanceof String && ((String) data).length() == 0)
         {
-            throw new ServiceException(errorEnum);
+            throw ex;
         }
     }
 
@@ -86,9 +85,9 @@ public class Utils
      * 判读对象必须为空
      *
      * @param data
-     * @param errorEnum
+     * @param ex
      */
-    public static void assertNull(Object data, ErrorEnum errorEnum) throws ServiceException
+    public static void assertNull(Object data, ServiceException ex) throws ServiceException
     {
         if (null == data)
         {
@@ -105,7 +104,7 @@ public class Utils
             return;
         }
 
-        throw new ServiceException(errorEnum);
+        throw ex;
     }
 
     /**
@@ -113,13 +112,13 @@ public class Utils
      *
      * @param data
      * @param compareData
-     * @param errorEnum
+     * @param ex
      */
-    public static void assertStrEquals(String data, String compareData, ErrorEnum errorEnum) throws ServiceException
+    public static void assertStrEquals(String data, String compareData, ServiceException ex) throws ServiceException
     {
         if (!StringUtils.equals(data, compareData))
         {
-            throw new ServiceException(errorEnum);
+            throw ex;
         }
     }
 }

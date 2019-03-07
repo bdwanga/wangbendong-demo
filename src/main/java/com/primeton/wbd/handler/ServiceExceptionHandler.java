@@ -23,7 +23,7 @@ public class ServiceExceptionHandler
     @ExceptionHandler(value = ServiceException.class)
     public ResponseEntity<JsonResult> handleServiceException(ServiceException exception)
     {
-        log.error(exception.getMessage(),exception);
+        log.error(exception.getMessage(), exception);
 
         return new ResponseEntity<>(new JsonResult(exception), exception.getHttpStatus());
     }

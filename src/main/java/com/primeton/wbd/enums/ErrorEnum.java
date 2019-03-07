@@ -1,6 +1,8 @@
 package com.primeton.wbd.enums;
 
-public enum ErrorEnum
+import com.primeton.wbd.exception.ErrorCoded;
+
+public enum ErrorEnum implements ErrorCoded
 {
     SYSTEM_ERROR("00000","系统错误"),
     ILLEGAL_PARAMETER("00001","非法参数错误"),
@@ -37,12 +39,12 @@ public enum ErrorEnum
         this.msg = msg;
     }
 
-    public String getCode()
+    public String codeValue()
     {
         return code;
     }
 
-    public String getMsg()
+    public String message()
     {
         return msg;
     }

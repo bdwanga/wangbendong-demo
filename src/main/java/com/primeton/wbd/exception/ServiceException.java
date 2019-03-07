@@ -3,6 +3,8 @@ package com.primeton.wbd.exception;
 import com.primeton.wbd.enums.ErrorEnum;
 import org.springframework.http.HttpStatus;
 
+import java.text.MessageFormat;
+
 public class ServiceException extends Exception
 {
     private final static String ERROR_CODE = "ErrCode: ";
@@ -50,7 +52,7 @@ public class ServiceException extends Exception
         super(cause);
         this.httpStatus = httpStatus;
         this.errCode = errCode;
-        this.message = message;
+        this.message = MessageFormat.format(message, params);
         this.params = params;
         this.additional = additional;
     }
@@ -70,22 +72,22 @@ public class ServiceException extends Exception
     /**
      * 构造方法.
      *
-     * @param errorEnum 异常枚举
+     * @param error 异常枚举接口
      */
-    public ServiceException(ErrorEnum errorEnum)
+    public ServiceException(ErrorCoded error)
     {
-        this(HttpStatus.OK, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
+        this(HttpStatus.OK, error.codeValue(), error.message(), null, null, null);
     }
 
     /**
      * 构造方法.
      *
-     * @param errorEnum 异常枚举
+     * @param error 异常枚举接口
      * @param httpStatus 返回HTTP状态
      */
-    public ServiceException(ErrorEnum errorEnum,HttpStatus httpStatus)
+    public ServiceException(ErrorCoded error, HttpStatus httpStatus)
     {
-        this(httpStatus, errorEnum.getCode(), errorEnum.getMsg(), null, null, null);
+        this(httpStatus, error.codeValue(), error.message(), null, null, null);
     }
 
     /**

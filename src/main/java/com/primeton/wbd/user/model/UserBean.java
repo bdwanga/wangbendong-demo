@@ -1,9 +1,11 @@
 package com.primeton.wbd.user.model;
 
+import com.primeton.wbd.org.model.OrgBean;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
 import java.io.Serializable;
+import java.util.List;
 
 @ApiModel(value = "UserBean", description = "用户信息")
 public class UserBean implements Serializable
@@ -52,6 +54,8 @@ public class UserBean implements Serializable
      */
     @ApiModelProperty(value="单位名称")
     private String orgName;
+
+    private List<OrgBean> list;
 
     public String getId()
     {
@@ -121,5 +125,15 @@ public class UserBean implements Serializable
     public void setOrgName(String orgName)
     {
         this.orgName = orgName;
+    }
+
+    public List<OrgBean> getList()
+    {
+        return list;
+    }
+
+    public void setList(List<OrgBean> list)
+    {
+        this.list = list;
     }
 }

@@ -75,14 +75,14 @@ public class JsonResult<T> implements Serializable
         //参数异常时的返回处理
         else if (e instanceof MissingServletRequestParameterException)
         {
-            this.state = ErrorEnum.ERROR_LACK_PARAM.getCode();
-            this.message = ErrorEnum.ERROR_LACK_PARAM.getMsg();
+            this.state = ErrorEnum.ERROR_LACK_PARAM.codeValue();
+            this.message = ErrorEnum.ERROR_LACK_PARAM.message();
             this.error = e.toString();
         }
         //系统异常时的返回处理
         else
         {
-            this.state = ErrorEnum.SYSTEM_ERROR.getCode();
+            this.state = ErrorEnum.SYSTEM_ERROR.codeValue();
             this.message = e.toString();
             this.error = Utils.getStackTraceInfo(e);
         }

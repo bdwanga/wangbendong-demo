@@ -29,9 +29,10 @@ public class SignInterceptor implements HandlerInterceptor
     {
         // 检查每个到来的请求对应的session域中是否有登录标识
         Object curUser = request.getSession().getAttribute("curUser");
-        if (null == curUser)
+        String uri = request.getRequestURI();
+        if (null == curUser && !uri.contains("/actuator") && !uri.contains("/error"))
         {
-            throw new ServiceException(ErrorEnum.NOT_LOGIN, HttpStatus.UNAUTHORIZED);
+            //throw new ServiceException(ErrorEnum.NOT_LOGIN, HttpStatus.UNAUTHORIZED);
         }
 
         return true;

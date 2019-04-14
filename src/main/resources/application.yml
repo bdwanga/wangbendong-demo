@@ -16,20 +16,23 @@
 
  eureka:
   client:
+    enabled: true
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka/
+      defaultZone: http://admin:123@localhost:8761/eureka/
   instance:
     prefer-ip-address: true
-    status-page-url: http://localhost:${server.port}/swagger-ui.html # ${server.port}Îª¸Ã·şÎñµÄ¶Ë¿ÚºÅ
+    status-page-url: http://localhost:${server.port}/swagger-ui.html # ${server.port}Îªï¿½Ã·ï¿½ï¿½ï¿½Ä¶Ë¿Úºï¿½
     instance-id: ${spring.cloud.client.ip-address}:${spring.application.name}:${server.port}
+    lease-renewal-interval-in-seconds: 10  # è®¾ç½®å¿ƒè·³çš„æ—¶é—´é—´éš”ï¼ˆé»˜è®¤æ˜¯30ç§’ï¼‰
+    lease-expiration-duration-in-seconds: 5 # å¦‚æœç°åœ¨è¶…è¿‡äº†5ç§’çš„é—´éš”ï¼ˆé»˜è®¤æ˜¯90ç§’ï¼‰
  #spring.mvc.view.prefix=/WEB-INF/views
 #spring.mvc.view.suffix=.jsp
-#ÔÚapplication.propertiesÎÄ¼şÖĞÒıÈëÈÕÖ¾ÅäÖÃÎÄ¼ş
+
  logging:
   config: classpath:logback-boot.xml
 
 
-#pagehelper·ÖÒ³²å¼şÅäÖÃ
+#pagehelperï¿½ï¿½Ò³ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
  pagehelper:
   helperDialect: mysql
   params:
@@ -39,3 +42,15 @@
 
  mybatis:
   mapperLocations: classpath:mapper/*.xml
+
+ management:
+  endpoints:
+    web:
+      exposure:
+        include: shutdown, service-registry
+  endpoint:
+    shutdown:
+      enabled: true
+  server:
+   port: 8081
+   address: 127.0.0.1

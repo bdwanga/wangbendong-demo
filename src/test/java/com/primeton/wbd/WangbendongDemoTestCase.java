@@ -14,6 +14,8 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.converter.HttpMessageConverter;
+import org.springframework.http.converter.StringHttpMessageConverter;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -23,7 +25,13 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.WebApplicationContext;
+
+import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -50,6 +58,98 @@ public class WangbendongDemoTestCase
     public void setUp()
     {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    @Test
+    public void testRest()
+    {
+        //RestTemplate restTemplate = new RestTemplate();
+        //this.reInitMessageConverter(restTemplate);
+
+        //InstanceId instanceInfo = getInstanceInfo(appInstance);
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        Date beginTime = new Date();
+        Date endTime = new Date();
+        String b = format.format(Long.valueOf(Long.valueOf(1541001600).longValue() * 1000L));
+        //2019.3.20
+        String end = format.format(Long.valueOf(Long.valueOf(1553875200).longValue() * 1000L));
+        System.out.println(b);
+        System.out.println(end);
+        try
+        {
+            beginTime = format.parse(b);
+            endTime = format.parse(end);
+
+        } catch (Exception e){
+
+        }
+
+        System.out.println(format.format(beginTime));
+        System.out.println(format.format(endTime));
+    }
+
+    private void reInitMessageConverter(RestTemplate restTemplate) {
+        List<HttpMessageConverter<?>> converterList = restTemplate.getMessageConverters();
+        HttpMessageConverter<?> converterTarget = null;
+        Iterator var4 = converterList.iterator();
+
+        while(var4.hasNext()) {
+            HttpMessageConverter<?> item = (HttpMessageConverter)var4.next();
+            if (item.getClass() == StringHttpMessageConverter.class) {
+                converterTarget = item;
+                break;
+            }
+        }
+
+        if (converterTarget != null) {
+            converterList.remove(converterTarget);
+        }
+
+        HttpMessageConverter<?> converter = new StringHttpMessageConverter(StandardCharsets.UTF_8);
+        converterList.add(converter);
+    }
+
+    @Test
+    public void testJava8()
+    {
+        List<String> strs =  Arrays.asList("1","2","3","5");
+        strs=
+                strs.stream().sorted((x, y) -> y.compareTo(x) ).map((item) -> {System.out.println(item); return item;}).collect(Collectors.toList());
+        System.out.println(strs);
+
+        List<Integer> numbers = Arrays.asList(3, 2, 2, 3, 7, 3, 5);
+
+        IntSummaryStatistics stats = numbers.stream().mapToInt((x) -> x).summaryStatistics();
+
+        System.out.println("列表中最大的数 : " + stats.getMax());
+        System.out.println("列表中最小的数 : " + stats.getMin());
+        System.out.println("所有数之和 : " + stats.getSum());
+        System.out.println("平均数 : " + stats.getAverage());
+        A b = new B();
+        System.out.println(b.AA);
+        System.out.println(b.getAA());
+        System.out.println(((B)b).getAA());
+    }
+
+    class A {
+        private String aa="123";
+
+        String AA = "123";
+        public String getAa() {
+            return this.aa;
+        }
+
+        public String getAA() {
+            return this.AA;
+        }
+    }
+
+    class B extends A{
+        //private String aa="abc";
+        String AA = "abc";
+        public String getAA() {
+            return this.AA;
+        }
     }
 
     /**

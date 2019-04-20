@@ -65,7 +65,8 @@ public class WangbendongDemoTestCase
     {
         //RestTemplate restTemplate = new RestTemplate();
         //this.reInitMessageConverter(restTemplate);
-
+        System.out.println(System.getProperty("@appId"));
+        System.out.println(System.getProperty("user.home"));
         //InstanceId instanceInfo = getInstanceInfo(appInstance);
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         Date beginTime = new Date();

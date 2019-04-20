@@ -1,6 +1,4 @@
  spring:
-  application:
-    name: wbd-demo
   datasoThreadLocal: urce.type=com.alibaba.druid.pool.DruidDataSource
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
@@ -28,8 +26,8 @@
  #spring.mvc.view.prefix=/WEB-INF/views
 #spring.mvc.view.suffix=.jsp
 
- logging:
-  config: classpath:logback-boot.xml
+#logging:
+#  config: classpath:logback-boot.xml
 
 
 #pagehelper��ҳ�������

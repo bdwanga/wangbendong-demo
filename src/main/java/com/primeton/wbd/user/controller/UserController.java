@@ -4,7 +4,9 @@ import com.github.pagehelper.PageInfo;
 import com.primeton.wbd.user.service.IUserService;
 import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.user.model.UserBean;
+import com.primeton.wbd.user.service.impl.UserServiceImpl;
 import com.primeton.wbd.util.JsonResult;
+import com.primeton.wbd.util.SmsUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -127,6 +129,44 @@ public class UserController
                            HttpSession session) throws ServiceException
     {
         UserBean loginUser = userService.signIn(userName, password);
+
+        //登录成功后将当前用户放入session
+        session.setAttribute("curUser", loginUser);
+
+        return loginUser;
+    }
+
+    /**
+     * 发送验证码
+     *
+     * @param phone 手机号
+     * @throws ServiceException
+     * @return
+     */
+    @RequestMapping(value = "/actions/smscode/{phone}", method = RequestMethod.GET)
+    @ApiOperation(value = "短信验证码登录", response = JsonResult.class)
+    @ResponseBody
+    public void sendSmsCode(@PathVariable("phone") @ApiParam(value = "手机号", required = true) String phone) throws ServiceException
+    {
+        userService.sendSmsCode(phone);
+    }
+
+    /**
+     * 用户登录
+     *
+     * @param phone 用户名
+     * @param code 密码
+     * @throws ServiceException
+     * @return 用户数据
+     */
+    @RequestMapping(value = "/actions/sign/bysms", method = RequestMethod.POST)
+    @ApiOperation(value = "短信验证码登录", response = JsonResult.class)
+    @ResponseBody
+    public UserBean signInBySms(@RequestParam("phone") @ApiParam(value = "手机号", required = true) String phone,
+                           @RequestParam("code") @ApiParam(value = "验证码", required = true) String code,
+                           HttpSession session) throws ServiceException
+    {
+        UserBean loginUser = userService.signInBySms(phone, code);
 
         //登录成功后将当前用户放入session
         session.setAttribute("curUser", loginUser);

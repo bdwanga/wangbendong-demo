@@ -2,9 +2,17 @@
   datasoThreadLocal: urce.type=com.alibaba.druid.pool.DruidDataSource
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
-    password: ENC(U+x8ePI/K7QTKbivoYs78A==)
+    password: #ENC(U+x8ePI/K7QTKbivoYs78A==)
     url: jdbc:mysql://localhost:3306/mysqlDB?characterEncoding=UTF-8
     username: root
+  redis:
+    port: 6379
+    host: 127.0.0.1
+    password: ENC(C2ZYMNok4wXCnDyogaqj+g==)
+    database: 0
+    timeout: 2s
+    redisson:
+      config: classpath:redisson-single.yml
 
  server:
   port: 12251
@@ -52,3 +60,9 @@
   server:
    port: 8081
    address: 127.0.0.1
+
+ sms:
+  accessKeyId: ENC(+SO5g+Y0SwykFUGYjXXR3bmCJp7C7VC+095AtcdVgpM=)
+  accessKeySecret: ENC(11hy2bLIkdhX4yE8tRmvI9P1lB1B6kdPQA45CBbDT2eV8CP4iu1Kug==)
+  signName: "共享魔方平台"
+  templateCode: SMS_172601832

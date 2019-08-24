@@ -51,6 +51,14 @@ public interface IUserDao
     public UserBean getUserByName(@Param(value = "name") String name);
 
     /**
+     * 根据用户手机号查询
+     *
+     * @param phone 手机号
+     * @return 用户信息
+     */
+    public UserBean getUserByPhone(@Param(value = "phone") String phone);
+
+    /**
      * 更新用户信息
      *
      * @param user 用户信息

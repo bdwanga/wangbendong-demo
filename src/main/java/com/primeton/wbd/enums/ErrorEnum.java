@@ -12,7 +12,7 @@ public enum ErrorEnum implements ErrorCoded
     OUT_OF_USER_COUNT("00005","锁获取超时错误"),
     REFRESH_TOKEN("00006","TOKEN刷新失败"),
     ERROR_USER_PASSWPRD("00007","用户密码错误"),
-    ERROR_USER("00008","用户不存在"),
+    ERROR_USER("00008","用户不存在，请先进行注册"),
     ERROR_USER_INUSE("00009","用户已存在错误"),
     LACK_USER_NAME("00010","缺少用户名错误"),
     LACK_USER_PASSWORD("00011","缺少密码错误"),
@@ -27,7 +27,8 @@ public enum ErrorEnum implements ErrorCoded
     ERROR_ORG("00020","组织机构不存在"),
     ERROR_ORG_NAME_INUSE("00021","组织名称已存在错误"),
     ERROR_LACK_PARAM("00022","缺少必传参数错误，请检查"),
-    ERROR_ORG_SUB_DEL("00023","请先删除其下级组织");
+    ERROR_ORG_SUB_DEL("00023","请先删除其下级组织"),
+    ERROR_PHONE_CODE("00024","登录验证码错误");
 
     private String code;
 

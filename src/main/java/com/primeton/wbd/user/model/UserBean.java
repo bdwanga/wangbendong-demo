@@ -26,6 +26,12 @@ public class UserBean implements Serializable
     private String name;
 
     /**
+     * 手机号
+     */
+    @ApiModelProperty(value="手机号")
+    private String phone;
+
+    /**
      * 密码
      */
     @ApiModelProperty(value="密码")
@@ -135,5 +141,15 @@ public class UserBean implements Serializable
     public void setList(List<OrgBean> list)
     {
         this.list = list;
+    }
+
+    public String getPhone()
+    {
+        return phone;
+    }
+
+    public void setPhone(String phone)
+    {
+        this.phone = phone;
     }
 }

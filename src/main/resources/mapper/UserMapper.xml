@@ -9,36 +9,44 @@
 		<result property="nick" column="USER_NICK" />
 		<result property="orgId" column="USER_ORG" />
 		<result property="orgName" column="ORG_NAME" />
+		<result property="phone" column="USER_PHONE" />
 	</resultMap>
 
     <sql id="USER_COLUMN_LIST" >
-        A.USER_ID,A.USER_NAME,A.USER_PASSWORD,A.USER_TOKEN,A.USER_NICK,A.USER_ORG,B.ORG_NAME
+        A.USER_ID,A.USER_NAME,A.USER_PASSWORD,A.USER_TOKEN,A.USER_NICK,A.USER_ORG,A.USER_PHONE,B.ORG_NAME
     </sql>
 
 	<!-- 保存用户信息，自动生成主键-->
 	<insert id="insertUser" parameterType="com.primeton.wbd.user.model.UserBean" useGeneratedKeys="true" keyProperty="id">
-		INSERT INTO WANGBD_USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG)
+		INSERT INTO USER (USER_NAME,USER_PASSWORD,USER_TOKEN,USER_NICK,USER_ORG,USER_PHONE)
 		VALUES
-		(#{name}, #{password}, #{token}, #{nick},#{orgId})
+		(#{name}, #{password}, #{token}, #{nick},#{orgId},#{phone})
 	</insert>
 	<!-- 通过id查询用户-->
 	<select id="getUser" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		 FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+		 FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_ID=#{id}
 	</select>
 	<!-- 通过用户名查询用户-->
 	<select id="getUserByName" parameterType="string" resultMap="USER_MAP">
         SELECT <include refid="USER_COLUMN_LIST" />
-		FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
 		WHERE  USER_NAME=#{name}
+	</select>
+
+	<!-- 通过用手机号查询用户-->
+	<select id="getUserByPhone" parameterType="string" resultMap="USER_MAP">
+		SELECT <include refid="USER_COLUMN_LIST" />
+		FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+		WHERE  USER_PHONE=#{phone}
 	</select>
 
     <!-- 查询用户信息-->
     <select id="queryUsers" parameterType="string" resultMap="USER_MAP">
         SELECT
         <include refid="USER_COLUMN_LIST"/>
-        FROM WANGBD_USER A LEFT JOIN WANGBD_ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
+        FROM USER A LEFT JOIN ORGANIZATION B ON (A.USER_ORG=B.ORG_ID)
         WHERE 1=1
         <if test="name != null and name !=''">
             AND A.USER_NAME LIKE "%"#{name}"%"
@@ -47,26 +55,27 @@
 			AND A.USER_ORG = #{orgId}
 		</if>
 		<if test="orgId != null and orgId !='' and isHasSub">
-			AND FIND_IN_SET(A.USER_ORG ,wbd_queryOrgSubsId(#{orgId}))
+			AND B.ORG_LEVELS LIKE "%"#{orgLevels}"%"
 		</if>
         ORDER BY A.USER_ID
     </select>
 
 	<!-- 更新用户信息-->
 	<update id="updateUser" parameterType="com.primeton.wbd.user.model.UserBean">
-	UPDATE WANGBD_USER A
+	UPDATE USER A
         SET
 				A.USER_NAME=#{name},
 				A.USER_TOKEN=#{token},
 				A.USER_NICK=#{nick},
-				A.USER_ORG=#{orgId}
+				A.USER_ORG=#{orgId},
+				A.USER_PHONE=#{phone}
 	WHERE
 		A.USER_ID=#{id}
 	</update>
 
 	<!-- 更新用户信息-->
 	<update id="updatePassword" parameterType="string">
-	UPDATE WANGBD_USER A
+	UPDATE USER A
         SET
 				A.USER_PASSWORD=#{newPassword}
 	WHERE
@@ -75,7 +84,7 @@
 
     <!-- 更新用户信息-->
     <delete  id="deleteUser" parameterType="string">
-	 DELETE FROM WANGBD_USER
+	 DELETE FROM USER
        WHERE USER_ID =#{id}
 	</delete>
 

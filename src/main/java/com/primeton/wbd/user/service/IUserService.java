@@ -78,4 +78,21 @@ public interface IUserService
      * @return
      */
     public void modifyPassword(String id, String oldPassword, String newPassword) throws ServiceException;
+
+    /**
+     * 发送验证码
+     *
+     * @param phone   电话号码
+     * @return
+     */
+    public void sendSmsCode(String phone) throws ServiceException;
+
+    /**
+     * 用户短信登录
+     *
+     * @param phone  手机号
+     * @param code 验证码
+     * @throws ServiceException
+     */
+    public UserBean signInBySms(String phone, String code) throws ServiceException;
 }

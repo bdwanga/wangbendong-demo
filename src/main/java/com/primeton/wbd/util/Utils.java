@@ -12,7 +12,7 @@ import java.util.Collection;
 
 public class Utils
 {
-    private static Logger log = LoggerFactory.getLogger(Utils.class);
+    private final static Logger log = LoggerFactory.getLogger(Utils.class);
 
     //私有构造器防止被外部改造
     private Utils()

@@ -6,13 +6,17 @@ import com.primeton.wbd.user.dao.IUserDao;
 import com.primeton.wbd.user.service.IUserService;
 import com.primeton.wbd.org.dao.IOrgDao;
 import com.primeton.wbd.user.model.UserBean;
+import com.primeton.wbd.util.SmsUtil;
 import com.primeton.wbd.util.Utils;
 import com.primeton.wbd.enums.ErrorEnum;
 import com.primeton.wbd.exception.ServiceException;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户管理service实现类
@@ -34,6 +38,9 @@ public class UserServiceImpl implements IUserService
 
     @Autowired
     private IOrgDao orgDao;
+
+    @Autowired
+    private StringRedisTemplate stringRedisTemplate;
 
     /**
      * 根据id查询用户信息
@@ -177,6 +184,45 @@ public class UserServiceImpl implements IUserService
 
         //密码错误抛出密码错误异常
         Utils.assertStrEquals(user.getPassword(), password, ErrorEnum.ERROR_USER_PASSWPRD.exception());
+
+        return user;
+    }
+
+    /**
+     * 发送验证码
+     *
+     * @param phone   电话号码
+     * @return
+     */
+    @Override
+    public void sendSmsCode(String phone) throws ServiceException
+    {
+        String code = SmsUtil.sendSmsCode(phone);
+        String key = "user_phone_" + phone + "_code";
+        stringRedisTemplate.opsForValue().set(key, code);
+        stringRedisTemplate.expire(key, 60, TimeUnit.SECONDS);
+        System.out.println("==============================================");
+        System.out.println(stringRedisTemplate.opsForValue().get(key));
+        System.out.println(stringRedisTemplate.getExpire(key));//根据key获取过期时间
+;    }
+
+    /**
+     * 用户短信登录
+     *
+     * @param phone  手机号
+     * @param code 验证码
+     * @throws ServiceException
+     */
+    public UserBean signInBySms(String phone, String code) throws ServiceException {
+        String key = "user_phone_" + phone + "_code";
+        String codeValue = stringRedisTemplate.opsForValue().get(key);
+        //密码错误抛出密码错误异常
+        Utils.assertStrEquals(code, codeValue, ErrorEnum.ERROR_PHONE_CODE.exception());
+
+        UserBean user = userDao.getUserByPhone(phone);
+
+        //如果未查询出结果抛出用户不存在错误
+        Utils.assertNotNull(user, ErrorEnum.ERROR_USER.exception());
 
         return user;
     }

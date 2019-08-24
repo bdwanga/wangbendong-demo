@@ -11,6 +11,8 @@ public class ServiceException extends Exception
 
     private final static String ERROR_MESSAGE = "Message: ";
 
+    private final static String DEFAULT_ERROR_CODE = "00000";
+
     /**
      * http状态码
      */
@@ -72,6 +74,16 @@ public class ServiceException extends Exception
     /**
      * 构造方法.
      *
+     * @param message 用户自定义异常描述信息
+     */
+    public ServiceException(String message)
+    {
+        this(HttpStatus.INTERNAL_SERVER_ERROR, DEFAULT_ERROR_CODE, message, null, null, null);
+    }
+
+    /**
+     * 构造方法.
+     *
      * @param error 异常枚举接口
      */
     public ServiceException(ErrorCoded error)
@@ -106,12 +118,12 @@ public class ServiceException extends Exception
     /**
      * 构造方法.
      *
-     * @param errCode 异常编号
+     * @param message 异常编号
      * @param cause   上层异常
      */
-    public ServiceException(String errCode, Throwable cause)
+    public ServiceException(String message, Throwable cause)
     {
-        this(errCode, null, null, cause, null);
+        this(null, message, null, cause, null);
     }
 
     /**

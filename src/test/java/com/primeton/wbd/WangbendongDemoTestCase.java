@@ -1,6 +1,7 @@
 package com.primeton.wbd;
 
 import com.github.pagehelper.PageInfo;
+import com.primeton.wbd.config.SmsCodeConfig;
 import com.primeton.wbd.exception.ServiceException;
 import com.primeton.wbd.org.controller.OrgController;
 import com.primeton.wbd.org.dao.IOrgDao;
@@ -8,6 +9,8 @@ import com.primeton.wbd.org.model.OrgBean;
 import com.primeton.wbd.user.controller.UserController;
 import com.primeton.wbd.user.dao.IUserDao;
 import com.primeton.wbd.user.model.UserBean;
+import com.primeton.wbd.util.SmsUtil;
+import org.jasypt.encryption.StringEncryptor;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +49,6 @@ public class WangbendongDemoTestCase
     @Autowired
     private IUserDao userDao;
 
-    @Autowired
     private IOrgDao orgDao;
 
     @Autowired
@@ -54,10 +56,44 @@ public class WangbendongDemoTestCase
 
     private MockMvc mvc;
 
+    @Autowired
+    StringEncryptor stringEncryptor;
+
+    @Autowired
+    SmsCodeConfig smsCodeConfig;
+
     @Before
     public void setUp()
     {
         mvc = MockMvcBuilders.webAppContextSetup(wac).build();
+    }
+
+    @Test
+    public void testSmsConfig() {
+        System.out.println("==================");
+        System.out.println(SmsCodeConfig.accessKeyId);
+        System.out.println(SmsCodeConfig.accessKeySecret);
+        System.out.println("==================");
+    }
+
+    @Test
+    public void testSendSms() throws ServiceException
+    {
+        System.out.println("==================");
+        System.out.println("验证码："+SmsUtil.sendSmsCode("151929XXXXX"));
+        System.out.println("==================");
+    }
+
+    @Test
+    public void encryptPwd() {
+        String result = stringEncryptor.encrypt("redis.");
+        System.out.println("==================");
+        System.out.println(result);
+        System.out.println("==================");
+        String result1 = stringEncryptor.decrypt(result);
+        System.out.println("==================");
+        System.out.println(result1);
+        System.out.println("==================");
     }
 
     @Test
